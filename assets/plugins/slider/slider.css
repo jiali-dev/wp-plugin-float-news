@@ -1,0 +1,46 @@
+.jialifn-slider {
+  position: relative;
+  width: 800px;
+  height: 400px;
+  margin: 50px auto;
+  overflow: hidden;
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+.jialifn-slides {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  transition: opacity 0.8s ease-in-out;
+}
+
+.jialifn-slides.active {
+  opacity: 1;
+}
+
+.jialifn-slides img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.jialifn-progress {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 6px;
+  background: rgba(255,255,255,0.3);
+}
+
+.jialifn-progress-bar {
+  height: 100%;
+  width: 0;
+  background: #00bfff;
+  transition: width linear;
+}
+
