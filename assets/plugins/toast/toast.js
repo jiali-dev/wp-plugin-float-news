@@ -2,25 +2,53 @@ jQuery(document).ready(function ($) {
 
   "use strict";
 
-  function showToast(html = '', type = 'info', duration = 3000) {
-    // Remove old toast if exists
-    $('.jialifn-toast').remove();
+  function showToast(content, duration = 3000) {
+    const $toast = $('.jialifn-toast');
+    const $content = $toast.find('.jialifn-toast-content');
 
-    // // Create toast element
-    // const element = `
-    //   <div class="jialifn-toast">
-    //     <div class="jialifn-toast-content">
-    //       ${html}
-    //     </div>
-    //   </div>`;
+    // Allow HTML content
+    if (typeof content === 'string' || content instanceof String) {
+      $content.html(content);
+    } else {
+      $content.empty().append(content);
+    }
 
-    // const $toast = $(element)
-    //   .addClass(type)
-    //   .appendTo('body');
+    // If already showing, restart
+    if ($toast.hasClass('show')) {
+      $toast.removeClass('show');
+      clearTimeout($toast.data('timeout'));
+      setTimeout(() => showToast(content, duration), 200);
+      return;
+    }
 
-    // Trigger show animation
-    setTimeout(() => $toast.addClass('show'), 50);
+    // Show toast
+    $toast.css('display', 'block').addClass('show');
 
+    // Auto-hide
+    // const timeout = setTimeout(() => {
+    //   $toast.removeClass('show');
+    //   setTimeout(() => $toast.hide(), 300);
+    // }, duration);
+
+    // $toast.data('timeout', timeout);
   }
+
+  showToast(`
+    <div class="jialifn-slider">
+        <div class="jialifn-slides active">
+            <img src="https://picsum.photos/id/1018/800/400" alt="Slide 1">
+        </div>
+        <div class="jialifn-slides">
+            <img src="https://picsum.photos/id/1025/800/400" alt="Slide 2">
+        </div>
+        <div class="jialifn-slides">
+            <img src="https://picsum.photos/id/1039/800/400" alt="Slide 3">
+        </div>
+
+        <div class="jialifn-progress">
+            <div class="jialifn-progress-bar"></div>
+        </div>
+    </div>
+  `);
 
 });

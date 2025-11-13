@@ -24,10 +24,10 @@ class JialifnViews {
     private function enqueueAssets( ) {
         wp_enqueue_style('jialifn-styles');
         wp_enqueue_script('jialifn-script');
-        wp_enqueue_style('jialifn-slider');
-        wp_enqueue_script('jialifn-slider');
         wp_enqueue_style('jialifn-toast');
         wp_enqueue_script('jialifn-toast');
+        wp_enqueue_style('jialifn-slider');
+        wp_enqueue_script('jialifn-slider');
     }
 
     /**
@@ -39,21 +39,7 @@ class JialifnViews {
         ob_start(); ?>
         <div class="jialifn-toast">
             <div class="jialifn-toast-content">
-                <div class="jialifn-slider">
-                    <div class="jialifn-slides active">
-                        <img src="https://picsum.photos/id/1018/800/400" alt="Slide 1">
-                    </div>
-                    <div class="jialifn-slides">
-                        <img src="https://picsum.photos/id/1025/800/400" alt="Slide 2">
-                    </div>
-                    <div class="jialifn-slides">
-                        <img src="https://picsum.photos/id/1039/800/400" alt="Slide 3">
-                    </div>
-        
-                    <div class="jialifn-progress">
-                        <div class="jialifn-progress-bar"></div>
-                    </div>
-                </div>
+                
             </div>
         </div>
 
