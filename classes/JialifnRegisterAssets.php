@@ -8,15 +8,13 @@ class JialifnRegisterAssets {
     // Registering all assets
     public static function registerAssets() {
 
-        // Register Notiflix
-        wp_register_style('jialifn-notiflix', JIALIFN_ASSETS_URI . '/plugins/notiflix/notiflix.min.css' , array(), '3.2.8', 'all');
-        wp_register_script('jialifn-notiflix', JIALIFN_ASSETS_URI . '/plugins/notiflix/notiflix.min.js' , array(), '3.2.8', true);
-        wp_register_script('jialifn-notiflix-custom', JIALIFN_ASSETS_URI . '/plugins/notiflix/notiflix-custom.js' , array(), '3.2.8', true);
+        // Register Slider Assets
+        wp_register_style('jialifn-slider', JIALIFN_ASSETS_URI . '/plugins/slider/slider.css' , array(), '1.0.0', 'all');
+        wp_register_script('jialifn-slider', JIALIFN_ASSETS_URI . '/plugins/slider/slider.js' , array(), '1.0.0', true);
 
-        // Register Swiper
-        wp_register_style('jialifn-swiper', JIALIFN_ASSETS_URI . '/plugins/swiper/swiper.min.css' , array(), '12.0.3', 'all');
-        wp_register_script('jialifn-swiper', JIALIFN_ASSETS_URI . '/plugins/swiper/swiper.min.js' , array(), '12.0.3', true);
-        wp_register_script('jialifn-swiper-custom', JIALIFN_ASSETS_URI . '/plugins/swiper/swiper-custom.js' , array(), '12.0.3', true);
+        // Register Toast Assets
+        wp_register_style('jialifn-toast', JIALIFN_ASSETS_URI . '/plugins/toast/toast.css' , array(), '1.0.0', 'all');
+        wp_register_script('jialifn-toast', JIALIFN_ASSETS_URI . '/plugins/toast/toast.js' , array(), '1.0.0', true);
 
         // Register styles
         wp_register_style('jialifn-styles', JIALIFN_ASSETS_URI . '/css/styles.css' , array(), '1.0.0', 'all');
