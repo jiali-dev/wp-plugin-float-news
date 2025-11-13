@@ -1,0 +1,27 @@
+/* Toast Style */
+/* toast container */
+.jialifn-toast {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  background: #323232;
+  color: #fff;
+  padding: 14px 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.3s ease;
+  z-index: 999;
+  font-size: 15px;
+  pointer-events: none;
+}
+
+.jialifn-toast.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.jialifn-toast.success { background: #28a745; }
+.jialifn-toast.error   { background: #dc3545; }
+.jialifn-toast.info    { background: #007bff; }
