@@ -15,21 +15,19 @@ class JialifnViews {
 
     private function __construct() {
         // Hook into content
-        add_filter( 'wp_footer', [ $this, 'render' ] );
+        add_action( 'wp_footer', [ $this, 'render' ] );
     }
 
     /**
      * Enqueue required assets
      */
     private function enqueueAssets( ) {
-        wp_enqueue_style('jialifn-swiper');
-        wp_enqueue_script('jialifn-swiper');
-        wp_enqueue_script('jialifn-swiper-custom');
-        wp_enqueue_style('jialifn-notiflix');
-        wp_enqueue_script('jialifn-notiflix');
-        wp_enqueue_script('jialifn-notiflix-custom');
         wp_enqueue_style('jialifn-styles');
         wp_enqueue_script('jialifn-script');
+        wp_enqueue_style('jialifn-toast');
+        wp_enqueue_script('jialifn-toast');
+        wp_enqueue_style('jialifn-slider');
+        wp_enqueue_script('jialifn-slider');
     }
 
     /**
@@ -39,12 +37,15 @@ class JialifnViews {
         $this->enqueueAssets();
 
         ob_start(); ?>
-        
-        <div class="">
-            <h1>Test</h1>
+        <div class="jialifn-toast">
+            <div class="jialifn-toast-content">
+                
+            </div>
         </div>
+
+        
         <?php
-        return ob_get_clean();
+        echo ob_get_clean();
     }
 
 }
