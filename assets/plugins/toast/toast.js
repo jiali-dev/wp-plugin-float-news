@@ -35,15 +35,20 @@ jQuery(document).ready(function ($) {
 
   showToast(`
     <div class="jialifn-slider">
-        <div class="jialifn-slides active">
-            <img src="https://picsum.photos/id/1018/800/400" alt="Slide 1">
-        </div>
-        <div class="jialifn-slides">
-            <img src="https://picsum.photos/id/1025/800/400" alt="Slide 2">
-        </div>
-        <div class="jialifn-slides">
-            <img src="https://picsum.photos/id/1039/800/400" alt="Slide 3">
-        </div>
+        <a class="jialifn-slides active">
+            <h3 class="jialifn-slides__title">Welcome to JialiFN Toast Notification!</h3>
+            <img class="jialifn-slides__img" src="https://picsum.photos/id/1018/800/400" alt="Slide 1">
+        </a>
+        <a class="jialifn-slides">
+            <h3 class="jialifn-slides__title">Welcome to JialiFN Toast Notification!</h3>
+
+            <img class="jialifn-slides__img" src="https://picsum.photos/id/1025/800/400" alt="Slide 2">
+        </a>
+        <a class="jialifn-slides">
+            <h3 class="jialifn-slides__title">Welcome to JialiFN Toast Notification!</h3>
+
+            <img class="jialifn-slides__img" src="https://picsum.photos/id/1039/800/400" alt="Slide 3">
+        </a>
 
         <div class="jialifn-progress">
             <div class="jialifn-progress-bar"></div>
