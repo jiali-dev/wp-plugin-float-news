@@ -23,7 +23,7 @@ class JialifnSettingsQuery {
             'jialifn_query_section',
             'Query Configuration',
             '__return_false',
-            'jialifn_query'
+            'jialifn-settings'
         );
 
         // SOURCE
@@ -31,7 +31,7 @@ class JialifnSettingsQuery {
             'source',
             'Source',
             [ $this, 'fieldSource' ],
-            'jialifn_query',
+            'jialifn-settings',
             'jialifn_query_section'
         );
 
@@ -40,7 +40,7 @@ class JialifnSettingsQuery {
             'include',
             'Include',
             [ $this, 'fieldInclude' ],
-            'jialifn_query',
+            'jialifn-settings',
             'jialifn_query_section'
         );
 
@@ -49,7 +49,7 @@ class JialifnSettingsQuery {
             'exclude',
             'Exclude',
             [ $this, 'fieldExclude' ],
-            'jialifn_query',
+            'jialifn-settings',
             'jialifn_query_section'
         );
 
@@ -58,7 +58,7 @@ class JialifnSettingsQuery {
             'date_range',
             'Date Range',
             [ $this, 'fieldDateRange' ],
-            'jialifn_query',
+            'jialifn-settings',
             'jialifn_query_section'
         );
 
@@ -67,7 +67,7 @@ class JialifnSettingsQuery {
             'orderby',
             'Order By',
             [ $this, 'fieldOrderBy' ],
-            'jialifn_query',
+            'jialifn-settings',
             'jialifn_query_section'
         );
 
@@ -75,7 +75,7 @@ class JialifnSettingsQuery {
             'order',
             'Order',
             [ $this, 'fieldOrder' ],
-            'jialifn_query',
+            'jialifn-settings',
             'jialifn_query_section'
         );
     }
@@ -131,11 +131,13 @@ class JialifnSettingsQuery {
     public function renderPage() {
         ?>
         <div class="wrap">
-            <h1>Float News – Query Settings</h1>
+            <h1>
+                <?php echo esc_html__('Float News', 'jiali-float-news') . ' - ' . esc_html__('Query Settings', 'jiali-float-news'); ?>
+            </h1>
             <form action="options.php" method="post">
                 <?php
                 settings_fields('jialifn_query_group');
-                do_settings_sections('jialifn_query');
+                do_settings_sections('jialifn-settings');
                 submit_button();
                 ?>
             </form>

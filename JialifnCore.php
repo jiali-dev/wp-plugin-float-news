@@ -51,6 +51,12 @@ class JialifnCore {
         // include_once(JIALIFN_PLUGIN_PATH.'inc/functions.php');
         JialifnRestApi::getInstance();
         JialifnFrontView::getInstance();
+
+        // Load settings classes early
+        JialifnSettingsQuery::getInstance();
+        JialifnSettingsStyle::getInstance();
+
+        // Load admin menu
         JialifnAdminMenu::getInstance();
     }
 

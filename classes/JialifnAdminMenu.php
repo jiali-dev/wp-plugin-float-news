@@ -21,8 +21,8 @@ class JialifnAdminMenu {
 
         // MAIN MENU (also acts as Query Settings page)
         add_menu_page(
-            'Float News Settings',
-            'Float News',
+            esc_html__('Float News Settings', 'jiali-float-news'),
+            esc_html__('Float News', 'jiali-float-news'),
             'manage_options',
             'jialifn-settings',
             [ $this, 'renderQuerySettings' ],
@@ -33,8 +33,8 @@ class JialifnAdminMenu {
         // SUBMENU → Query Settings (same page as main)
         add_submenu_page(
             'jialifn-settings',
-            'Query Settings',
-            'Query Settings',
+            esc_html__('Query Settings', 'jiali-float-news'),
+            esc_html__('Query Settings', 'jiali-float-news'),
             'manage_options',
             'jialifn-settings',
             [ $this, 'renderQuerySettings' ]
@@ -43,8 +43,8 @@ class JialifnAdminMenu {
         // SUBMENU → Style Settings (different page)
         add_submenu_page(
             'jialifn-settings',
-            'Style Settings',
-            'Style Settings',
+            esc_html__('Style Settings', 'jiali-float-news'),
+            esc_html__('Style Settings', 'jiali-float-news'),
             'manage_options',
             'jialifn-style-settings',
             [ $this, 'renderStyleSettings' ]

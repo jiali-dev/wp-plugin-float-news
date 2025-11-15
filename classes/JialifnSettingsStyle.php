@@ -23,14 +23,14 @@ class JialifnSettingsStyle {
             'jialifn_style_section',
             'Style Configuration',
             '__return_false',
-            'jialifn_style'
+            'jialifn-style-settings'
         );
 
         add_settings_field(
             'theme',
             'Theme',
             [ $this, 'fieldTheme' ],
-            'jialifn_style',
+            'jialifn-style-settings',
             'jialifn_style_section'
         );
     }
@@ -50,7 +50,7 @@ class JialifnSettingsStyle {
             <form action="options.php" method="post">
                 <?php
                 settings_fields('jialifn_style_group');
-                do_settings_sections('jialifn_style');
+                do_settings_sections('jialifn-style-settings');
                 submit_button();
                 ?>
             </form>

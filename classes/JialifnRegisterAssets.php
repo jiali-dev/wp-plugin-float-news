@@ -34,13 +34,12 @@ class JialifnRegisterAssets {
 
         // Selct2 Assets
         wp_register_style('jialifn-select2', JIALIFN_ASSETS_URI . '/plugins/select2/select2.min.css' , array(), '4.1.0', 'all');
-        wp_enqueue_style('jialifn-select2');
         wp_register_script('jialifn-select2', JIALIFN_ASSETS_URI . '/plugins/select2/select2.min.js' , array(), '4.1.0', true);
-        wp_enqueue_script('jialifn-select2');
+
 
         // Color Picker Assets
         wp_enqueue_style('wp-color-picker');
-        wp_enqueue_script('jialifn-color-picker', esc_url(JIALIFN_ASSETS_URI . '/js/admin-color-picker.js'), ['wp-color-picker'], '1.0.0', true);
+        wp_register_script('jialifn-color-picker', esc_url(JIALIFN_ASSETS_URI . '/js/admin-color-picker.js'), ['wp-color-picker'], '1.0.0', true);
 
     }
     
