@@ -8,11 +8,11 @@ class JialifnRestApi {
     /**
      * Constructor: hook into rest_api_init
      */
-    public function __construct() {
+    private function __construct() {
         add_action( 'rest_api_init', [ $this, 'registerRoutes' ] );
     }
 
-     private function __clone() {}
+    private function __clone() {}
 
     public static function getInstance() {
         if (self::$instance === null) {

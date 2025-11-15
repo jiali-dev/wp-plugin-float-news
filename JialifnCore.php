@@ -7,7 +7,7 @@ class JialifnCore {
 
     private static $instance = null;
 
-    public function __construct() {
+    private function __construct() {
         $this->defineConstants();
         $this->registerAutoload();
         $this->init();
@@ -50,7 +50,8 @@ class JialifnCore {
         
         // include_once(JIALIFN_PLUGIN_PATH.'inc/functions.php');
         JialifnRestApi::getInstance();
-        JialifnViews::getInstance();
+        JialifnFrontView::getInstance();
+        JialifnAdminMenu::getInstance();
     }
 
     // Start output buffering

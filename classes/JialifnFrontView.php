@@ -2,7 +2,7 @@
 // Exit if accessed directly
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-class JialifnViews {
+class JialifnFrontView {
 
     private static $instance = null;
 
@@ -31,7 +31,7 @@ class JialifnViews {
     }
 
     /**
-     * Bookmark button HTML
+     * Render
      */
     public function render( ) {
         $this->enqueueAssets();
