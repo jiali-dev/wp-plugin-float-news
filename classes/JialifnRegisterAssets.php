@@ -18,7 +18,6 @@ class JialifnRegisterAssets {
         wp_register_style('jialifn-shared-style', JIALIFN_ASSETS_URI . '/common/css/shared.css' , array(), '1.0.0', 'all');
         wp_register_script('jialifn-shared-script', JIALIFN_ASSETS_URI . '/common/js/shared.js', array('jquery'), '1.0.0', true);
 
-
         // Localize script
         wp_localize_script( 'jialifn-shared-script', 'jialifn_ajax', 
             array(
@@ -30,17 +29,18 @@ class JialifnRegisterAssets {
 
     public static function adminRegisterAssets($hook_suffix) {
 
-        // Selct2 Assets
-        wp_register_style('jialifn-select2', JIALIFN_ASSETS_URI . '/vendor/select2/select2.min.css' , array(), '4.1.0', 'all');
-        wp_register_script('jialifn-select2', JIALIFN_ASSETS_URI . '/vendor/select2/select2.min.js' , array(), '4.1.0', true);
-
         if ($hook_suffix === 'toplevel_page_jialifn-settings' ||
-            $hook_suffix === 'float-news_page_jialifn-settings') {
+        $hook_suffix === 'float-news_page_jialifn-settings') {
+            
+            // Selct2 Assets
+            wp_enqueue_style('jialifn-select2', JIALIFN_ASSETS_URI . '/vendor/select2/select2.min.css' , array(), '4.1.0', 'all');
+            wp_enqueue_script('jialifn-select2', JIALIFN_ASSETS_URI . '/vendor/select2/select2.min.js' , array(), '4.1.0', true);
+            
             // Register settings script
-            wp_register_script('jialifn-settings-query', JIALIFN_ASSETS_URI . '/admin/js/settings-query.js' , array(), '1.0.0', true);
+            wp_enqueue_script('jialifn-settings-query', JIALIFN_ASSETS_URI . '/admin/js/settings-query.js' , ['jquery', 'jialifn-select2'], '1.0.0', true);
 
         }
-        
+
         // Color Picker Assets
         wp_enqueue_style('wp-color-picker');
         wp_register_script('jialifn-color-picker', esc_url(JIALIFN_ASSETS_URI . '/admin/js/admin-color-picker.js'), ['wp-color-picker'], '1.0.0', true);

@@ -12,16 +12,7 @@ class JialifnSettingsQuery {
     }
 
     private function __construct() {
-        // Enqueue only for admin
-        $this->enqueueAdminAssets();
-
         add_action('admin_init', [ $this, 'registerSettings' ]);
-    }
-
-    public function enqueueAdminAssets() {
-        wp_enqueue_style('jialifn-select2');
-        wp_enqueue_script('jialifn-select2');
-        wp_enqueue_script('jialifn-settings-query');
     }
 
     public function registerSettings() {
@@ -122,10 +113,9 @@ class JialifnSettingsQuery {
     }
 
     public function fieldIncludeBy() {
-        echo '<select class="jialifn-select2" name="jialifn_query_options[includeby][]" multiple="multiple" style="width: 100%;"> \n
-            <option value="">Select Type</option> \n
-            <option value="term">Term</option> \n
-            <option value="author">Author</option> \n
+        echo '<select id="example-select" class="jialifn-select2" name="jialifn_query_options[includeby][]" multiple= style="width: 100%;">
+            <option value="term">Term</option>
+            <option value="author">Author</option>
         </select>';
     }
 
@@ -156,7 +146,7 @@ class JialifnSettingsQuery {
 
     public function renderPage() {
         ?>
-        <div class="wrap">
+        <div class="wrap jialifn-admin-area">
             <h1>
                 <?php echo esc_html__('Float News', 'jiali-float-news') . ' - ' . esc_html__('Query Settings', 'jiali-float-news'); ?>
             </h1>

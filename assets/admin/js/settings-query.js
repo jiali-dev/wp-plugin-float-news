@@ -1,4 +1,11 @@
 jQuery(document).ready(function ($) {
+
+  "use strict";
+  
+  // Initialize Select2
+  $('#example-select').select2();
+
+
   $('.jialifn-source').on('change', function() {
     const value = $(this).val();
 
@@ -11,13 +18,6 @@ jQuery(document).ready(function ($) {
       $('.jialifn-excludeby-wrapper').show();
       $('.jialifn-date-range-wrapper').show();
     }
-
-    // Initialize Select2
-    $('.jialifn-select2').select2({
-      theme: classic
-      // placeholder: "Select Type",
-      // allowClear: true
-    });
 
   })
 });
