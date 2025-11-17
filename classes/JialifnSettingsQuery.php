@@ -12,7 +12,16 @@ class JialifnSettingsQuery {
     }
 
     private function __construct() {
+        // Enqueue only for admin
+        $this->enqueueAdminAssets();
+
         add_action('admin_init', [ $this, 'registerSettings' ]);
+    }
+
+    public function enqueueAdminAssets() {
+        wp_enqueue_style('jialifn-select2');
+        wp_enqueue_script('jialifn-select2');
+        wp_enqueue_script('jialifn-settings-query');
     }
 
     public function registerSettings() {
@@ -37,20 +46,26 @@ class JialifnSettingsQuery {
 
         // INCLUDE TERMS + AUTHORS
         add_settings_field(
-            'include',
-            'Include',
-            [ $this, 'fieldInclude' ],
+            'include-by',
+            'Include by',
+            [ $this, 'fieldIncludeBy' ],
             'jialifn-settings',
-            'jialifn_query_section'
+            'jialifn_query_section',
+            [
+                'class' => 'jialifn-includeby-wrapper'
+            ]
         );
 
         // EXCLUDE TERMS + AUTHORS
         add_settings_field(
-            'exclude',
-            'Exclude',
-            [ $this, 'fieldExclude' ],
+            'exclude-by',
+            'Exclude by',
+            [ $this, 'fieldExcludeBy' ],
             'jialifn-settings',
-            'jialifn_query_section'
+            'jialifn_query_section',
+            [
+                'class' => 'jialifn-excludeby-wrapper'
+            ]
         );
 
         // DATE FILTERS
@@ -59,7 +74,10 @@ class JialifnSettingsQuery {
             'Date Range',
             [ $this, 'fieldDateRange' ],
             'jialifn-settings',
-            'jialifn_query_section'
+            'jialifn_query_section',
+            [
+                'class' => 'jialifn-date-range-wrapper'
+            ]
         );
 
         // ORDER
@@ -82,28 +100,36 @@ class JialifnSettingsQuery {
 
 
     /* ==== FIELD RENDERERS ===== */
-
     public function fieldSource() {
         $opts = get_option('jialifn_query_options');
         $value = $opts['source'] ?? '';
 
         $post_types = get_post_types([ 'public' => true ], 'objects');
 
-        echo '<select name="jialifn_query_options[source]">';
-        echo '<option value="latest" ' . selected($value, 'latest', false) . '>Latest Posts</option>';
-        echo '<option value="manual" ' . selected($value, 'manual', false) . '>Manual IDs</option>';
+        $exclude = ['attachment', 'e-floating-buttons', 'elementor_library'];
+
+        echo '<select class="jialifn-source" name="jialifn_query_options[source]">';
 
         foreach ($post_types as $key => $pt) {
+            if (in_array($key, $exclude, true)) {
+                continue;
+            }
             echo "<option value='{$key}' " . selected($value, $key, false) . ">{$pt->label}</option>";
         }
+        echo '<option value="' . esc_attr('manual_ids') . '" ' . selected($value, 'manual_ids', false) . '>' . esc_html('Manual Selection') . '</option>';
+
         echo '</select>';
     }
 
-    public function fieldInclude() {
-        echo '<p>Include authors / terms form inputs here</p>';
+    public function fieldIncludeBy() {
+        echo '<select class="jialifn-select2" name="jialifn_query_options[includeby][]" multiple="multiple" style="width: 100%;"> \n
+            <option value="">Select Type</option> \n
+            <option value="term">Term</option> \n
+            <option value="author">Author</option> \n
+        </select>';
     }
 
-    public function fieldExclude() {
+    public function fieldExcludeBy() {
         echo '<p>Exclude authors / terms form inputs here</p>';
     }
 

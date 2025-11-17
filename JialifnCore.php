@@ -73,8 +73,8 @@ class JialifnCore {
         JialifnRegisterAssets::registerAssets();
     }
 
-    public function adminRegisterAssets() {
-        JialifnRegisterAssets::adminRegisterAssets();
+    public function adminRegisterAssets($hook_suffix) {
+        JialifnRegisterAssets::adminRegisterAssets($hook_suffix);
     }
 
     public static function uninstallation() {
