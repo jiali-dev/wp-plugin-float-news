@@ -47,6 +47,30 @@ class JialifnSettingsQuery {
             ]
         );
 
+        // INCLUDED TERMS
+        add_settings_field(
+            'included-terms',
+            'Included terms',
+            [ $this, 'fieldIncludedTerms' ],
+            'jialifn-settings',
+            'jialifn_query_section',
+            [
+                'class' => 'jialifn-included-terms-wrapper'
+            ]
+        );
+
+        // INCLUDED AUTHORS
+        add_settings_field(
+            'included-authors',
+            'Included authors',
+            [ $this, 'fieldIncludedAuthors' ],
+            'jialifn-settings',
+            'jialifn_query_section',
+            [
+                'class' => 'jialifn-included-authors-wrapper'
+            ]
+        );
+
         // EXCLUDE TERMS + AUTHORS
         add_settings_field(
             'exclude-by',
@@ -107,13 +131,27 @@ class JialifnSettingsQuery {
             }
             echo "<option value='{$key}' " . selected($value, $key, false) . ">{$pt->label}</option>";
         }
-        echo '<option value="' . esc_attr('manual_ids') . '" ' . selected($value, 'manual_ids', false) . '>' . esc_html('Manual Selection') . '</option>';
+        echo '<option value="' . esc_attr__('manual_ids', 'jiali-float-news') . '" ' . selected($value, 'manual_ids', false) . '>' . esc_html__('Manual Selection', 'jiali-float-news') . '</option>';
 
         echo '</select>';
     }
 
     public function fieldIncludeBy() {
-        echo '<select id="example-select" class="jialifn-select2" name="jialifn_query_options[includeby][]" multiple= style="width: 100%;">
+        echo '<select class="jialifn-includeby" name="jialifn_query_options[includeby][]" multiple= style="width: 100%;">
+            <option value="term">'.esc_html__('Term', 'jiali-float-news').'</option>
+            <option value="author">'.esc_html__('Author', 'jiali-float-news').'</option>
+        </select>';
+    }
+
+    public function fieldIncludedTerms() {
+        echo '<select class="jialifn-includedterms" name="jialifn_query_options[includedterms][]" multiple= style="width: 100%;">
+            <option value="term">Term</option>
+            <option value="author">Author</option>
+        </select>';
+    }
+
+    public function fieldIncludedAuthors() {
+        echo '<select class="jialifn-includedauthors" name="jialifn_query_options[includedauthors][]" multiple= style="width: 100%;">
             <option value="term">Term</option>
             <option value="author">Author</option>
         </select>';

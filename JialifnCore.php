@@ -49,6 +49,7 @@ class JialifnCore {
         add_action('admin_enqueue_scripts', [$this, 'adminRegisterAssets']); // For this project
         
         // include_once(JIALIFN_PLUGIN_PATH.'inc/functions.php');
+        JialifnAjaxFunctions::getInstance();
         JialifnRestApi::getInstance();
         JialifnFrontView::getInstance();
 

@@ -15,11 +15,11 @@ class JialifnRegisterAssets {
         wp_register_script('jialifn-toast', JIALIFN_ASSETS_URI . '/frontend/js/toast.js' , array(), '1.0.0', true);
         
         // Common Assets
-        wp_register_style('jialifn-shared-style', JIALIFN_ASSETS_URI . '/common/css/shared.css' , array(), '1.0.0', 'all');
-        wp_register_script('jialifn-shared-script', JIALIFN_ASSETS_URI . '/common/js/shared.js', array('jquery'), '1.0.0', true);
+        wp_register_style('jialifn-shared', JIALIFN_ASSETS_URI . '/common/css/shared.css' , array(), '1.0.0', 'all');
+        wp_register_script('jialifn-shared', JIALIFN_ASSETS_URI . '/common/js/shared.js', array('jquery'), '1.0.0', true);
 
         // Localize script
-        wp_localize_script( 'jialifn-shared-script', 'jialifn_ajax', 
+        wp_localize_script( 'jialifn-shared', 'jialifn_ajax', 
             array(
                 'ajaxurl' => admin_url('admin-ajax.php'),
                 'nonce' => wp_create_nonce('jialifn-nonce')
@@ -29,6 +29,16 @@ class JialifnRegisterAssets {
 
     public static function adminRegisterAssets($hook_suffix) {
 
+        wp_enqueue_script('jialifn-shared', JIALIFN_ASSETS_URI . '/common/js/shared.js', array('jquery'), '1.0.0', true);
+
+        // Localize script
+        wp_localize_script( 'jialifn-shared', 'jialifn_ajax', 
+            array(
+                'ajaxurl' => admin_url('admin-ajax.php'),
+                'nonce' => wp_create_nonce('jialifn-nonce')
+            )
+        );
+        
         if ($hook_suffix === 'toplevel_page_jialifn-settings' ||
         $hook_suffix === 'float-news_page_jialifn-settings') {
             
