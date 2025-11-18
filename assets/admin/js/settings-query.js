@@ -215,4 +215,20 @@ jQuery(document).ready(function ($) {
       }
     }
   );
+
+  // Date before
+  flatpickr(".jialifn-date-before", {
+    enableTime: true,
+    noCalendar: false,     // keep the calendar visible
+    dateFormat: "Y-m-d H:i", // include hours & minutes in the output
+    time_24hr: true        // 24-hour format (optional)
+  });
+
+  // Date after
+  flatpickr(".jialifn-date-after", {
+    enableTime: true,
+    noCalendar: false,     // keep the calendar visible
+    dateFormat: "Y-m-d H:i", // include hours & minutes in the output
+    time_24hr: true        // 24-hour format (optional)
+  });
 });

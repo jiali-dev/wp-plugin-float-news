@@ -140,6 +140,30 @@ class JialifnSettingsQuery {
             ]
         );
 
+        // DATE BEFORE
+        add_settings_field(
+            'date_before',
+            'Date Before',
+            [ $this, 'fieldDateBefore' ],
+            'jialifn-settings',
+            'jialifn_query_section',
+            [
+                'class' => 'jialifn-date-before-wrapper'
+            ]
+        );
+
+        // DATE AFTER
+        add_settings_field(
+            'date_after',
+            'Date After',
+            [ $this, 'fieldDateAfter' ],
+            'jialifn-settings',
+            'jialifn_query_section',
+            [
+                'class' => 'jialifn-date-after-wrapper'
+            ]
+        );
+
         // ORDER
         add_settings_field(
             'orderby',
@@ -236,6 +260,14 @@ class JialifnSettingsQuery {
             <option value="year">Past year</option>
             <option value="custom">Custom</option>
         </select>';
+    }
+
+    public function fieldDateBefore() {
+        echo '<input type="text" class="jialifn-date-before" name="jialifn_query_options[date_before]" />';
+    }
+
+    public function fieldDateAfter() {
+        echo '<input type="text" class="jialifn-date-after" name="jialifn_query_options[date_after]" />';
     }
 
     public function fieldOrderBy() {

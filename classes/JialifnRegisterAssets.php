@@ -43,9 +43,15 @@ class JialifnRegisterAssets {
         $hook_suffix === 'float-news_page_jialifn-settings') {
             
             // Selct2 Assets
+            wp_enqueue_style('jialifn-flatpicker', JIALIFN_ASSETS_URI . '/vendor/flatpicker/flatpicker.min.css' , array(), '4.6.13', 'all');
+            wp_enqueue_style('jialifn-flatpicker-rtl', JIALIFN_ASSETS_URI . '/vendor/flatpicker/flatpicker-rtl.css' , array(), '4.6.13', 'all');
+            wp_enqueue_script('jialifn-flatpicker', JIALIFN_ASSETS_URI . '/vendor/flatpicker/flatpicker.min.js' , array(), '4.6.13', true);
+            
+            // Selct2 Assets
             wp_enqueue_style('jialifn-select2', JIALIFN_ASSETS_URI . '/vendor/select2/select2.min.css' , array(), '4.1.0', 'all');
             wp_enqueue_script('jialifn-select2', JIALIFN_ASSETS_URI . '/vendor/select2/select2.min.js' , array(), '4.1.0', true);
             
+
             // Register settings script
             wp_enqueue_script('jialifn-settings-query', JIALIFN_ASSETS_URI . '/admin/js/settings-query.js' , ['jquery', 'jialifn-select2'], '1.0.0', true);
 
