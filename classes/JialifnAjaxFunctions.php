@@ -8,11 +8,13 @@ class JialifnAjaxFunctions {
     private function __construct() {
         // Get terms
         add_action('wp_ajax_jialifn_get_terms', [$this, 'jialifnGetTerms']);
-        add_action('wp_ajax_nopriv_jialifn_get_terms', [$this, 'jialifnGetTerms']);
 
         // Get terms
         add_action('wp_ajax_jialifn_get_authors', [$this, 'jialifnGetAuthors']);
-        add_action('wp_ajax_nopriv_jialifn_get_authors', [$this, 'jialifnGetAuthors']);
+
+        // Get terms
+        add_action('wp_ajax_jialifn_get_manual_sources', [$this, 'jialifnGetManualSources']);
+
     }
 
     public static function getInstance() {
@@ -124,6 +126,49 @@ class JialifnAjaxFunctions {
 
         wp_send_json($results);
         
+    }
+
+    // Get manual sources
+    public function jialifnGetManualSources() {
+
+        // Verify nonce
+        $this->verifyNonce();
+
+        // User must be logged in
+        if (!is_user_logged_in()) {
+            wp_send_json_error([
+                'message' => esc_html__('You must be logged in to perform this action.', 'jiali-float-news')
+            ], 403);
+        }
+
+        // Sanitize inputs
+        $search     = sanitize_text_field($_POST['search'] ?? '');
+        $post_type  = sanitize_key($_POST['post_type'] ?? 'post');
+
+        // Validate post type
+        if (!post_type_exists($post_type)) {
+            wp_send_json_error([
+                'message' => esc_html__('Invalid post type.', 'jiali-float-news')
+            ]);
+        }
+
+        // Query posts
+        $posts = get_posts([
+            'post_type'      => $post_type,
+            's'              => $search,      // WordPress search
+            'posts_per_page' => 20,
+            'post_status'    => 'publish',
+        ]);
+
+        $results = [];
+        foreach ($posts as $post) {
+            $results[] = [
+                'id'   => $post->ID,
+                'text' => $post->post_title
+            ];
+        }
+
+        wp_send_json($results);
     }
 
 }
