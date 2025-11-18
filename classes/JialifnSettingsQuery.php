@@ -83,6 +83,30 @@ class JialifnSettingsQuery {
             ]
         );
 
+        // EXCLUDED TERMS
+        add_settings_field(
+            'excluded-terms',
+            'Excluded terms',
+            [ $this, 'fieldExcludedTerms' ],
+            'jialifn-settings',
+            'jialifn_query_section',
+            [
+                'class' => 'jialifn-excluded-terms-wrapper'
+            ]
+        );
+
+        // EXCLUDED AUTHORS
+        add_settings_field(
+            'excluded-authors',
+            'Excluded authors',
+            [ $this, 'fieldExcludedAuthors' ],
+            'jialifn-settings',
+            'jialifn_query_section',
+            [
+                'class' => 'jialifn-excluded-authors-wrapper'
+            ]
+        );
+
         // DATE FILTERS
         add_settings_field(
             'date_range',
@@ -145,15 +169,11 @@ class JialifnSettingsQuery {
 
     public function fieldIncludedTerms() {
         echo '<select class="jialifn-includedterms" name="jialifn_query_options[includedterms][]" multiple= style="width: 100%;">
-            <option value="term">Term</option>
-            <option value="author">Author</option>
         </select>';
     }
 
     public function fieldIncludedAuthors() {
         echo '<select class="jialifn-includedauthors" name="jialifn_query_options[includedauthors][]" multiple= style="width: 100%;">
-            <option value="term">Term</option>
-            <option value="author">Author</option>
         </select>';
     }
 
@@ -165,8 +185,26 @@ class JialifnSettingsQuery {
         </select>';
     }
 
+    public function fieldExcludedTerms() {
+        echo '<select class="jialifn-excludedterms" name="jialifn_query_options[excludedterms][]" multiple= style="width: 100%;">
+        </select>';
+    }
+
+    public function fieldExcludedAuthors() {
+        echo '<select class="jialifn-excludedauthors" name="jialifn_query_options[excludedauthors][]" multiple= style="width: 100%;">
+        </select>';
+    }
+
     public function fieldDateRange() {
-        echo '<p>Date range fields here</p>';
+        echo '<select name="jialifn_query_options[daterange]">
+            <option value="anytime">All</option>
+            <option value="today">Past day</option>
+            <option value="week">Past week</option>
+            <option value="month">Past month</option>
+            <option value="quarter">Past quarter</option>
+            <option value="year">Past year</option>
+            <option value="custom">Custom</option>
+        </select>';
     }
 
     public function fieldOrderBy() {
