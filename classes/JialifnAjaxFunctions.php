@@ -9,6 +9,10 @@ class JialifnAjaxFunctions {
         // Get terms
         add_action('wp_ajax_jialifn_get_terms', [$this, 'jialifnGetTerms']);
         add_action('wp_ajax_nopriv_jialifn_get_terms', [$this, 'jialifnGetTerms']);
+
+        // Get terms
+        add_action('wp_ajax_jialifn_get_authors', [$this, 'jialifnGetAuthors']);
+        add_action('wp_ajax_nopriv_jialifn_get_authors', [$this, 'jialifnGetAuthors']);
     }
 
     public static function getInstance() {
@@ -25,6 +29,7 @@ class JialifnAjaxFunctions {
         }
     }
 
+    // Get terms
     public function jialifnGetTerms() {
 
         // Verify AJAX nonce
@@ -38,8 +43,8 @@ class JialifnAjaxFunctions {
         }
 
         // Sanitize inputs
-        $search     = sanitize_text_field($_POST['search'] ?? '');
-        $post_type  = sanitize_key($_POST['post_type'] ?? 'post');
+        $search = sanitize_text_field($_POST['search'] ?? '');
+        $post_type = sanitize_key($_POST['post_type'] ?? 'post');
 
         // Get all taxonomies linked to this post type
         $taxonomies = get_object_taxonomies($post_type);
@@ -73,6 +78,52 @@ class JialifnAjaxFunctions {
         }
 
         wp_send_json($results);
+    }
+
+    // Get authors
+    public function jialifnGetAuthors() {
+
+        // Verify AJAX nonce
+        $this->verifyNonce();
+
+        if (!is_user_logged_in()) {
+            throw new Exception(
+                esc_html__('You must be logged in to perform this action!', 'jiali-float-news'),
+                403
+            );
+        }
+
+        // Sanitize search query
+        $search = sanitize_text_field($_POST['search'] ?? '');
+
+        // Query authors
+        $authors = get_users([
+            'search'         => '*'.$search.'*',
+            'search_columns' => ['display_name', 'user_nicename'],
+            'number'         => 20,
+            'orderby'        => 'display_name',
+            'order'          => 'ASC',
+            // Optional: Limit only to authors/editors/admins
+            'role__in'       => ['author', 'editor', 'administrator'],
+        ]);
+
+        if (empty($authors)) {
+            wp_send_json_error([
+                'message' => esc_html__('No authors found!', 'jiali-float-news')
+            ]);
+        }
+
+        $results = [];
+
+        foreach ($authors as $author) {
+            $results[] = [
+                'id'   => $author->ID,
+                'text' => $author->display_name . ' (' . $author->user_nicename . ')'
+            ];
+        }
+
+        wp_send_json($results);
+        
     }
 
 }
