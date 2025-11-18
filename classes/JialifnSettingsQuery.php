@@ -158,7 +158,11 @@ class JialifnSettingsQuery {
     }
 
     public function fieldExcludeBy() {
-        echo '<p>Exclude authors / terms form inputs here</p>';
+        echo '<select class="jialifn-excludeby" name="jialifn_query_options[excludeby][]" multiple= style="width: 100%;">
+            <option value="term">'.esc_html__('Term', 'jiali-float-news').'</option>
+            <option value="author">'.esc_html__('Author', 'jiali-float-news').'</option>
+            <option value="author">'.esc_html__('Manual selection', 'jiali-float-news').'</option>
+        </select>';
     }
 
     public function fieldDateRange() {

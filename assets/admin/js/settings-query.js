@@ -18,8 +18,16 @@ jQuery(document).ready(function ($) {
 
   })
 
-  // Initialize Select2
+  // Initialize include by field
   $('.jialifn-includeby').select2({
+      width: '25%',
+      placeholder: 'Select ...',
+      dir: $('body').hasClass('rtl') ? 'rtl' : 'ltr'
+    }
+  );
+
+  // Initialize exclude by field
+  $('.jialifn-excludeby').select2({
       width: '25%',
       placeholder: 'Select ...',
       dir: $('body').hasClass('rtl') ? 'rtl' : 'ltr'
