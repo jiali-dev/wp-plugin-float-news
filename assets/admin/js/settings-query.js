@@ -21,7 +21,7 @@ jQuery(document).ready(function ($) {
   // Get manual sources
   $('.jialifn-manual-sources').select2({
       width: '25%',
-      placeholder: 'Please enter 1 or more characters',
+      placeholder: jialifn_translate_handler.enter_characters,
       dir: $('body').hasClass('rtl') ? 'rtl' : 'ltr',
       ajax: {
         url: jialifn_ajax.ajaxurl,
@@ -52,7 +52,7 @@ jQuery(document).ready(function ($) {
   // Initialize include by field
   $('.jialifn-include-by').select2({
       width: '25%',
-      placeholder: 'Select ...',
+      placeholder: jialifn_translate_handler.select,
       dir: $('body').hasClass('rtl') ? 'rtl' : 'ltr'
     }
   );
@@ -60,7 +60,7 @@ jQuery(document).ready(function ($) {
   // Initialize exclude by field
   $('.jialifn-exclude-by').select2({
       width: '25%',
-      placeholder: 'Select ...',
+      placeholder: jialifn_translate_handler.select,
       dir: $('body').hasClass('rtl') ? 'rtl' : 'ltr'
     }
   );
@@ -68,7 +68,7 @@ jQuery(document).ready(function ($) {
   // Get included terms
   $('.jialifn-included-terms').select2({
       width: '25%',
-      placeholder: 'Please enter 1 or more characters',
+      placeholder: jialifn_translate_handler.enter_characters,
       dir: $('body').hasClass('rtl') ? 'rtl' : 'ltr',
       ajax: {
         url: jialifn_ajax.ajaxurl,
@@ -99,7 +99,7 @@ jQuery(document).ready(function ($) {
   // Get included authors
   $('.jialifn-included-authors').select2({
       width: '25%',
-      placeholder: 'Please enter 1 or more characters',
+      placeholder: jialifn_translate_handler.enter_characters,
       dir: $('body').hasClass('rtl') ? 'rtl' : 'ltr',
       ajax: {
         url: jialifn_ajax.ajaxurl,
@@ -128,7 +128,7 @@ jQuery(document).ready(function ($) {
     // Get excluded terms
   $('.jialifn-excluded-terms').select2({
       width: '25%',
-      placeholder: 'Please enter 1 or more characters',
+      placeholder: jialifn_translate_handler.enter_characters,
       dir: $('body').hasClass('rtl') ? 'rtl' : 'ltr',
       ajax: {
         url: jialifn_ajax.ajaxurl,
@@ -159,7 +159,7 @@ jQuery(document).ready(function ($) {
   // Get excluded authors
   $('.jialifn-excluded-authors').select2({
       width: '25%',
-      placeholder: 'Please enter 1 or more characters',
+      placeholder: jialifn_translate_handler.enter_characters,
       dir: $('body').hasClass('rtl') ? 'rtl' : 'ltr',
       ajax: {
         url: jialifn_ajax.ajaxurl,
@@ -188,7 +188,7 @@ jQuery(document).ready(function ($) {
   // Get manual sources
   $('.jialifn-manual-excluded-sources').select2({
       width: '25%',
-      placeholder: 'Please enter 1 or more characters',
+      placeholder: jialifn_translate_handler.enter_characters,
       dir: $('body').hasClass('rtl') ? 'rtl' : 'ltr',
       ajax: {
         url: jialifn_ajax.ajaxurl,

@@ -206,29 +206,29 @@ class JialifnSettingsQuery {
     }
 
     public function fieldManualSources() {
-        echo '<select class="jialifn-manual-sources" name="jialifn_query_options[manual_sources][]" multiple= style="width: 100%;">
+        echo '<select class="jialifn-manual-sources" name="jialifn_query_options[manual_sources][]" multiple>
         </select>';
     }
 
     public function fieldIncludeBy() {
-        echo '<select class="jialifn-include-by" name="jialifn_query_options[include_by][]" multiple= style="width: 100%;">
+        echo '<select class="jialifn-include-by" name="jialifn_query_options[include_by][]" multiple>
             <option value="term">'.esc_html__('Term', 'jiali-float-news').'</option>
             <option value="author">'.esc_html__('Author', 'jiali-float-news').'</option>
         </select>';
     }
 
     public function fieldIncludedTerms() {
-        echo '<select class="jialifn-included-terms" name="jialifn_query_options[included_terms][]" multiple= style="width: 100%;">
+        echo '<select class="jialifn-included-terms" name="jialifn_query_options[included_terms][]" multiple>
         </select>';
     }
 
     public function fieldIncludedAuthors() {
-        echo '<select class="jialifn-included-authors" name="jialifn_query_options[included_authors][]" multiple= style="width: 100%;">
+        echo '<select class="jialifn-included-authors" name="jialifn_query_options[included_authors][]" multiple>
         </select>';
     }
 
     public function fieldExcludeBy() {
-        echo '<select class="jialifn-exclude-by" name="jialifn_query_options[exclude_by][]" multiple= style="width: 100%;">
+        echo '<select class="jialifn-exclude-by" name="jialifn_query_options[exclude_by][]" multiple>
             <option value="term">'.esc_html__('Term', 'jiali-float-news').'</option>
             <option value="author">'.esc_html__('Author', 'jiali-float-news').'</option>
             <option value="author">'.esc_html__('Manual selection', 'jiali-float-news').'</option>
@@ -236,29 +236,29 @@ class JialifnSettingsQuery {
     }
 
     public function fieldExcludedTerms() {
-        echo '<select class="jialifn-excluded-terms" name="jialifn_query_options[excluded_terms][]" multiple= style="width: 100%;">
+        echo '<select class="jialifn-excluded-terms" name="jialifn_query_options[excluded_terms][]" multiple>
         </select>';
     }
 
     public function fieldExcludedAuthors() {
-        echo '<select class="jialifn-excluded-authors" name="jialifn_query_options[excluded_authors][]" multiple= style="width: 100%;">
+        echo '<select class="jialifn-excluded-authors" name="jialifn_query_options[excluded_authors][]" multiple>
         </select>';
     }
 
     public function fieldManualExcludedSources() {
-        echo '<select class="jialifn-manual-excluded-sources" name="jialifn_query_options[manual_excluded_sources][]" multiple= style="width: 100%;">
+        echo '<select class="jialifn-manual-excluded-sources" name="jialifn_query_options[manual_excluded_sources][]" multiple>
         </select>';
     }
 
     public function fieldDateRange() {
         echo '<select name="jialifn_query_options[date_range]">
-            <option value="anytime">All</option>
-            <option value="today">Past day</option>
-            <option value="week">Past week</option>
-            <option value="month">Past month</option>
-            <option value="quarter">Past quarter</option>
-            <option value="year">Past year</option>
-            <option value="custom">Custom</option>
+            <option value="anytime">'.esc_html__('All', 'jiali-float-news').'</option>
+            <option value="today">'.esc_html__('Past day', 'jiali-float-news').'</option>
+            <option value="week">'.esc_html__('Past week', 'jiali-float-news').'</option>
+            <option value="month">'.esc_html__('Past month', 'jiali-float-news').'</option>
+            <option value="quarter">'.esc_html__('Past quarter', 'jiali-float-news').'</option>
+            <option value="year">'.esc_html__('Past year', 'jiali-float-news').'</option>
+            <option value="custom">'.esc_html__('Custom', 'jiali-float-news').'</option>
         </select>';
     }
 
@@ -272,18 +272,18 @@ class JialifnSettingsQuery {
 
     public function fieldOrderBy() {
         echo '<select name="jialifn_query_options[order_by]">
-                <option value="date">Date</option>
-                <option value="title">Title</option>
-                <option value="modified">Last Modified</option>
-                <option value="comment_count">Comment Count</option>
-                <option value="rand">Random</option>
+                <option value="date">'.esc_html__('Date', 'jiali-float-news').'</option>
+                <option value="title">'.esc_html__('Title', 'jiali-float-news').'</option>
+                <option value="modified">'.esc_html__('Last modified', 'jiali-float-news').'</option>
+                <option value="comment_count">'.esc_html__('Comment count', 'jiali-float-news').'</option>
+                <option value="rand">'.esc_html__('Random', 'jiali-float-news').'</option>
             </select>';
     }
 
     public function fieldOrder() {
         echo '<select name="jialifn_query_options[order]">
-                <option value="DESC">DESC</option>
-                <option value="ASC">ASC</option>
+                <option value="DESC">'.esc_html__('DESC', 'jiali-float-news').'</option>
+                <option value="ASC">'.esc_html__('ASC', 'jiali-float-news').'</option>
             </select>';
     }
 
