@@ -1,7 +1,7 @@
 jQuery(document).ready(function ($) {
   "use strict";
 
-  // Check field dependencies to show
+  // Check source field dependencies to show
   function handleSourceDependencies(value) {
     const hide = value === "manual_selection";
     $(".jialifn-query-exception-section-wrapper").toggle(!hide);
@@ -9,7 +9,7 @@ jQuery(document).ready(function ($) {
     $(".jialifn-manual-sources-wrapper").toggle(hide);
   }
 
-  // Check field dependencies to show
+  // Check include by field dependencies to show
   function handleIncludeByDependencies(values) {
     const showByTerm = values.includes("term");
     const showByAuthor = values.includes("author");
@@ -17,9 +17,20 @@ jQuery(document).ready(function ($) {
     $(".jialifn-included-authors-wrapper").toggle(showByAuthor);
   }
 
+  // Check exclude by field dependencies to show
+  function handleExcludeByDependencies(values) {
+    const showByTerm = values.includes("term");
+    const showByAuthor = values.includes("author");
+    const showManualSelection = values.includes("manual_selection");
+    $(".jialifn-excluded-terms-wrapper").toggle(showByTerm);
+    $(".jialifn-excluded-authors-wrapper").toggle(showByAuthor);
+    $(".jialifn-manual-excluded-sources-wrapper").toggle(showManualSelection);
+  }
+
   // Run on page load
   handleSourceDependencies($(".jialifn-source").val());
   handleIncludeByDependencies($(".jialifn-include-by").val() || []);
+  handleExcludeByDependencies($(".jialifn-exclude-by").val() || []);
 
   // Get source
   $(".jialifn-source").on("change", function () {
@@ -128,6 +139,12 @@ jQuery(document).ready(function ($) {
     width: "25%",
     placeholder: jialifn_translate_handler.select,
     dir: $("body").hasClass("rtl") ? "rtl" : "ltr",
+  });
+
+  // Get exclude by
+  $(".jialifn-exclude-by").on("change", function () {
+    const values = $(this).val() || [];
+    handleExcludeByDependencies(values);
   });
 
   // Get excluded terms

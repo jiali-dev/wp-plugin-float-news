@@ -310,6 +310,7 @@ class JialifnSettingsQuery {
         echo '</select>';
     }
 
+    // INCLUDED AUTHORS
     public function fieldIncludedAuthors() {
         // Get saved options
         $options = get_option('jialifn_query_options', []);
@@ -334,27 +335,102 @@ class JialifnSettingsQuery {
         echo '</select>';
     }
 
+    // EXCLUDE BY FIELD
     public function fieldExcludeBy() {
-        echo '<select class="jialifn-exclude-by" name="jialifn_query_options[exclude_by][]" multiple>
-            <option value="term">'.esc_html__('Term', 'jiali-float-news').'</option>
-            <option value="author">'.esc_html__('Author', 'jiali-float-news').'</option>
-            <option value="author">'.esc_html__('Manual selection', 'jiali-float-news').'</option>
-        </select>';
+        // Get saved values (array because multiple select)
+        $options = get_option('jialifn_query_options');
+        $selected_values = $options['exclude_by'] ?? [];
+
+        echo '<select class="jialifn-exclude-by" name="jialifn_query_options[exclude_by][]" multiple>';
+        echo '<option value="term" ' . selected(in_array('term', $selected_values), true, false) . '>'
+                . esc_html__('Term', 'jiali-float-news') .
+            '</option>';
+        echo '<option value="author" ' . selected(in_array('author', $selected_values), true, false) . '>'
+                . esc_html__('Author', 'jiali-float-news') .
+            '</option>';
+        echo '<option value="manual_selection" ' . selected(in_array('manual_selection', $selected_values), true, false) . '>'
+                . esc_html__('Manual selection', 'jiali-float-news') .
+            '</option>';
+        echo '</select>';
     }
 
     public function fieldExcludedTerms() {
-        echo '<select class="jialifn-excluded-terms" name="jialifn_query_options[excluded_terms][]" multiple>
-        </select>';
+        // Get saved values (array of term IDs)
+        $options = get_option('jialifn_query_options');
+        $saved_ids = $options['excluded_terms'] ?? [];
+
+        echo '<select class="jialifn-excluded-terms" name="jialifn_query_options[excluded_terms][]" multiple>';
+
+        // If saved terms exist → preload them in <option selected>
+        if (!empty($saved_ids) && is_array($saved_ids)) {
+            foreach ($saved_ids as $term_id) {
+
+                $term = get_term($term_id);
+
+                // Validate term exists
+                if ($term && !is_wp_error($term)) {
+                    echo '<option value="' . esc_attr($term->term_id) . '" selected>'
+                            . esc_html($term->name . ' (' . $term->taxonomy . ')') .
+                        '</option>';
+                }
+            }
+        }
+
+        echo '</select>';
     }
 
     public function fieldExcludedAuthors() {
-        echo '<select class="jialifn-excluded-authors" name="jialifn_query_options[excluded_authors][]" multiple>
-        </select>';
+        // Get saved options
+        $options = get_option('jialifn_query_options', []);
+        $saved_ids = $options['excluded_authors'] ?? []; // array of author IDs
+
+        echo '<select class="jialifn-excluded-authors" name="jialifn_query_options[excluded_authors][]" multiple>';
+
+        if (!empty($saved_ids) && is_array($saved_ids)) {
+
+            foreach ($saved_ids as $user_id) {
+                $user = get_userdata($user_id);
+
+                if ($user) {
+                    $label = $user->display_name . ' (' . $user->user_login . ')';
+                    echo '<option value="' . esc_attr($user->ID) . '" selected>'
+                        . esc_html($label) .
+                        '</option>';
+                }
+            }
+        }
+
+        echo '</select>';
+
     }
 
     public function fieldManualExcludedSources() {
-        echo '<select class="jialifn-manual-excluded-sources" name="jialifn_query_options[manual_excluded_sources][]" multiple>
-        </select>';
+        // Get saved values (array because multiple select)
+        $options = get_option('jialifn_query_options');
+        $selected_values = $options['manual_excluded_sources'] ?? [];
+
+        echo '<select class="jialifn-manual-excluded-sources" name="jialifn_query_options[manual_excluded_sources][]" multiple>';
+
+        // Preload saved posts
+        if (!empty($selected_values) && is_array($selected_values)) {
+
+            foreach ($selected_values as $post_id) {
+
+                $post = get_post($post_id);
+
+                if ($post && !is_wp_error($post)) {
+
+                    // Label example: "Post Title (post_type)"
+                    $label = $post->post_title;
+
+                    echo '<option value="' . esc_attr($post->ID) . '" selected>'
+                        . esc_html($label) .
+                        '</option>';
+                }
+            }
+        }
+
+        echo '</select>';
     }
 
     public function fieldDateRange() {
