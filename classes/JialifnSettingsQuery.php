@@ -311,8 +311,27 @@ class JialifnSettingsQuery {
     }
 
     public function fieldIncludedAuthors() {
-        echo '<select class="jialifn-included-authors" name="jialifn_query_options[included_authors][]" multiple>
-        </select>';
+        // Get saved options
+        $options = get_option('jialifn_query_options', []);
+        $saved_ids = $options['included_authors'] ?? []; // array of author IDs
+
+        echo '<select class="jialifn-included-authors" name="jialifn_query_options[included_authors][]" multiple>';
+
+        if (!empty($saved_ids) && is_array($saved_ids)) {
+
+            foreach ($saved_ids as $user_id) {
+                $user = get_userdata($user_id);
+
+                if ($user) {
+                    $label = $user->display_name . ' (' . $user->user_login . ')';
+                    echo '<option value="' . esc_attr($user->ID) . '" selected>'
+                        . esc_html($label) .
+                        '</option>';
+                }
+            }
+        }
+
+        echo '</select>';
     }
 
     public function fieldExcludeBy() {
