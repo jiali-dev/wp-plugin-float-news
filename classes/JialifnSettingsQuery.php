@@ -41,7 +41,10 @@ class JialifnSettingsQuery {
             'Manual sources',
             [ $this, 'fieldManualSources' ],
             'jialifn-settings',
-            'jialifn_query_section'
+            'jialifn_query_section',
+            [
+                'class' => 'jialifn-manual-sources-wrapper'
+            ]
         );
 
         // INCLUDE TERMS + AUTHORS
@@ -52,7 +55,7 @@ class JialifnSettingsQuery {
             'jialifn-settings',
             'jialifn_query_section',
             [
-                'class' => 'jialifn-includeby-wrapper'
+                'class' => 'jialifn-include-by-wrapper'
             ]
         );
 
@@ -200,7 +203,7 @@ class JialifnSettingsQuery {
             }
             echo "<option value='{$key}' " . selected($value, $key, false) . ">{$pt->label}</option>";
         }
-        echo '<option value="' . esc_attr__('manual_selection', 'jiali-float-news') . '" ' . selected($value, 'manual_selection', false) . '>' . esc_html__('Manual Selection', 'jiali-float-news') . '</option>';
+        echo '<option value="' . esc_attr__('manual_selection', 'jiali-float-news') . '" ' . selected($value, 'manual_selection', false) . '>' . esc_html__('Manual selection', 'jiali-float-news') . '</option>';
 
         echo '</select>';
     }
@@ -263,11 +266,11 @@ class JialifnSettingsQuery {
     }
 
     public function fieldDateBefore() {
-        echo '<input type="text" class="jialifn-date-before" name="jialifn_query_options[date_before]" />';
+        echo '<input type="text" class="jialifn-date-before" name="jialifn_query_options[date_before]" placeholder="'.esc_html__('Select ...', 'jiali-float-news').'" />';
     }
 
     public function fieldDateAfter() {
-        echo '<input type="text" class="jialifn-date-after" name="jialifn_query_options[date_after]" />';
+        echo '<input type="text" class="jialifn-date-after" name="jialifn_query_options[date_after]" placeholder="'.esc_html__('Select ...', 'jiali-float-news').'" />';
     }
 
     public function fieldOrderBy() {

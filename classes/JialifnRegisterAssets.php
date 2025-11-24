@@ -53,6 +53,7 @@ class JialifnRegisterAssets {
             
 
             // Register settings script
+            wp_enqueue_style('jialifn-settings-query', JIALIFN_ASSETS_URI . '/admin/css/settings-query.css' , array(), '1.0.0', 'all');
             wp_enqueue_script('jialifn-settings-query', JIALIFN_ASSETS_URI . '/admin/js/settings-query.js' , ['jquery', 'jialifn-select2'], '1.0.0', true);
 
         }
