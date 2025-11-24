@@ -9,10 +9,10 @@ class JialifnAjaxFunctions {
         // Get terms
         add_action('wp_ajax_jialifn_get_terms', [$this, 'jialifnGetTerms']);
 
-        // Get terms
+        // Get authors
         add_action('wp_ajax_jialifn_get_authors', [$this, 'jialifnGetAuthors']);
 
-        // Get terms
+        // Get manual sources
         add_action('wp_ajax_jialifn_get_manual_sources', [$this, 'jialifnGetManualSources']);
 
     }
@@ -143,18 +143,9 @@ class JialifnAjaxFunctions {
 
         // Sanitize inputs
         $search     = sanitize_text_field($_POST['search'] ?? '');
-        $post_type  = sanitize_key($_POST['post_type'] ?? 'post');
-
-        // Validate post type
-        if (!post_type_exists($post_type)) {
-            wp_send_json_error([
-                'message' => esc_html__('Invalid post type.', 'jiali-float-news')
-            ]);
-        }
 
         // Query posts
         $posts = get_posts([
-            'post_type'      => $post_type,
             's'              => $search,      // WordPress search
             'posts_per_page' => 20,
             'post_status'    => 'publish',

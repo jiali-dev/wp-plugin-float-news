@@ -38,13 +38,11 @@ jQuery(document).ready(function ($) {
       delay: 250,
       type: "POST",
       data: function (params) {
-        const postType = $(".jialifn-source").val();
         const nonce = jialifn_ajax.nonce;
 
         return {
           action: "jialifn_get_manual_sources",
           search: params.term,
-          post_type: postType,
           nonce: nonce,
         };
       },
@@ -199,13 +197,11 @@ jQuery(document).ready(function ($) {
       delay: 250,
       type: "POST",
       data: function (params) {
-        const postType = $(".jialifn-source").val();
         const nonce = jialifn_ajax.nonce;
 
         return {
           action: "jialifn_get_manual_sources",
           search: params.term,
-          post_type: postType,
           nonce: nonce,
         };
       },

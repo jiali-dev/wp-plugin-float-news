@@ -237,9 +237,37 @@ class JialifnSettingsQuery {
         echo '</select>';
     }
 
+    // MANUAL SOURCES
     public function fieldManualSources() {
-        echo '<select class="jialifn-manual-sources" name="jialifn_query_options[manual_sources][]" multiple>
-        </select>';
+        
+        // Get saved values (array because multiple select)
+        $options = get_option('jialifn_query_options');
+        $selected_values = $options['manual_sources'] ?? [];
+
+        echo '<select class="jialifn-manual-sources" 
+                 name="jialifn_query_options[manual_sources][]" 
+                 multiple>';
+
+        // Preload saved posts
+        if (!empty($selected_values) && is_array($selected_values)) {
+
+            foreach ($selected_values as $post_id) {
+
+                $post = get_post($post_id);
+
+                if ($post && !is_wp_error($post)) {
+
+                    // Label example: "Post Title (post_type)"
+                    $label = $post->post_title;
+
+                    echo '<option value="' . esc_attr($post->ID) . '" selected>'
+                        . esc_html($label) .
+                        '</option>';
+                }
+            }
+        }
+
+        echo '</select>';
     }
 
     public function fieldIncludeBy() {
