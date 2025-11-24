@@ -12,11 +12,11 @@ jQuery(document).ready(function ($) {
 
     if( value === 'manual_ids' ) {
       $('.jialifn-include-by-wrapper').hide();
-      $('.jialifn-excludeby-wrapper').hide();
+      $('.jialifn-exclude-by-wrapper').hide();
       $('.jialifn-date-range-wrapper').hide();
     } else {
       $('.jialifn-include-by-wrapper').show();
-      $('.jialifn-excludeby-wrapper').show();
+      $('.jialifn-exclude-by-wrapper').show();
       $('.jialifn-date-range-wrapper').show();
     }
 

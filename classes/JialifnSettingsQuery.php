@@ -91,7 +91,7 @@ class JialifnSettingsQuery {
             'jialifn-settings',
             'jialifn_query_section',
             [
-                'class' => 'jialifn-excludeby-wrapper'
+                'class' => 'jialifn-exclude-by-wrapper'
             ]
         );
 
