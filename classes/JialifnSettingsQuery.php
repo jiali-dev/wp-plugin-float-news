@@ -166,10 +166,7 @@ class JialifnSettingsQuery {
             esc_html__('Date range', 'jiali-float-news'),
             [ $this, 'fieldDateRange' ],
             'jialifn-settings',
-            'jialifn_query_date_section',
-            [
-                'class' => 'jialifn-date-range-wrapper'
-            ]
+            'jialifn_query_date_section'
         );
 
         // DATE BEFORE
@@ -196,13 +193,25 @@ class JialifnSettingsQuery {
             ]
         );
 
+        // --- ORDER Section ---
+        add_settings_section(
+            'jialifn_query_order_section',
+            esc_html__('Query order settings', 'jiali-float-news'),
+            '__return_false',
+            'jialifn-settings',
+            [
+                'before_section' => '<div class="jialifn-query-order-section-wrapper">',
+                'after_section'  => '</div>',
+            ]
+        );
+
         // ORDER
         add_settings_field(
             'orderby',
             esc_html__('Order by', 'jiali-float-news'),
             [ $this, 'fieldOrderBy' ],
             'jialifn-settings',
-            'jialifn_query_date_section'
+            'jialifn_query_order_section'
         );
 
         add_settings_field(
@@ -210,7 +219,7 @@ class JialifnSettingsQuery {
             esc_html__('Order', 'jiali-float-news'),
             [ $this, 'fieldOrder' ],
             'jialifn-settings',
-            'jialifn_query_date_section'
+            'jialifn_query_order_section'
         );
     }
 
@@ -232,7 +241,7 @@ class JialifnSettingsQuery {
             }
             echo "<option value='{$key}' " . selected($value, $key, false) . ">{$pt->label}</option>";
         }
-        echo '<option value="' . esc_attr__('manual_selection', 'jiali-float-news') . '" ' . selected($value, 'manual_selection', false) . '>' . esc_html__('Manual selection', 'jiali-float-news') . '</option>';
+        echo '<option value="manual_selection" ' . selected($value, 'manual_selection', false) . '>' . esc_html__('Manual selection', 'jiali-float-news') . '</option>';
 
         echo '</select>';
     }
@@ -354,6 +363,7 @@ class JialifnSettingsQuery {
         echo '</select>';
     }
 
+    // EXCLUDED TERMS
     public function fieldExcludedTerms() {
         // Get saved values (array of term IDs)
         $options = get_option('jialifn_query_options');
@@ -379,6 +389,7 @@ class JialifnSettingsQuery {
         echo '</select>';
     }
 
+    // EXCLUDED AUTHORS
     public function fieldExcludedAuthors() {
         // Get saved options
         $options = get_option('jialifn_query_options', []);
@@ -404,6 +415,7 @@ class JialifnSettingsQuery {
 
     }
 
+    // MANUAL EXCLUDED SOURCES
     public function fieldManualExcludedSources() {
         // Get saved values (array because multiple select)
         $options = get_option('jialifn_query_options');
@@ -433,40 +445,69 @@ class JialifnSettingsQuery {
         echo '</select>';
     }
 
+    // DATE RANGE
     public function fieldDateRange() {
-        echo '<select name="jialifn_query_options[date_range]">
-            <option value="anytime">'.esc_html__('All', 'jiali-float-news').'</option>
-            <option value="today">'.esc_html__('Past day', 'jiali-float-news').'</option>
-            <option value="week">'.esc_html__('Past week', 'jiali-float-news').'</option>
-            <option value="month">'.esc_html__('Past month', 'jiali-float-news').'</option>
-            <option value="quarter">'.esc_html__('Past quarter', 'jiali-float-news').'</option>
-            <option value="year">'.esc_html__('Past year', 'jiali-float-news').'</option>
-            <option value="custom">'.esc_html__('Custom', 'jiali-float-news').'</option>
+        // Get saved values (array because multiple select)
+        $opts = get_option('jialifn_query_options');
+        $value = $opts['date_range'] ?? '';
+
+        echo '<select class="jialifn-date-range" name="jialifn_query_options[date_range]">
+            <option value="anytime" ' . selected($value, 'anytime', false) . '>'.esc_html__('All', 'jiali-float-news').'</option>
+            <option value="today"' . selected($value, 'today', false) . '>'.esc_html__('Past day', 'jiali-float-news').'</option>
+            <option value="week"' . selected($value, 'week', false) . '>'.esc_html__('Past week', 'jiali-float-news').'</option>
+            <option value="month"' . selected($value, 'month', false) . '>'.esc_html__('Past month', 'jiali-float-news').'</option>
+            <option value="quarter"' . selected($value, 'quarter', false) . '>'.esc_html__('Past quarter', 'jiali-float-news').'</option>
+            <option value="year"' . selected($value, 'year', false) . '>'.esc_html__('Past year', 'jiali-float-news').'</option>
+            <option value="custom"' . selected($value, 'custom', false) . '>'.esc_html__('Custom', 'jiali-float-news').'</option>
         </select>';
     }
 
+    // DATE BEFORE
     public function fieldDateBefore() {
-        echo '<input type="text" class="jialifn-date-before" name="jialifn_query_options[date_before]" placeholder="'.esc_html__('Select ...', 'jiali-float-news').'" />';
+        $options = get_option('jialifn_query_options', []);
+        $value = $options['date_before'] ?? '';
+
+        echo '<input type="text" 
+                    class="jialifn-date-before" 
+                    name="jialifn_query_options[date_before]" 
+                    placeholder="' . esc_html__('Select ...', 'jiali-float-news') . '" 
+                    value="' . esc_attr($value) . '" />';
     }
 
+    // DATE AFTER
     public function fieldDateAfter() {
-        echo '<input type="text" class="jialifn-date-after" name="jialifn_query_options[date_after]" placeholder="'.esc_html__('Select ...', 'jiali-float-news').'" />';
+        $options = get_option('jialifn_query_options', []);
+        $value = $options['date_after'] ?? '';
+
+        echo '<input type="text" 
+                    class="jialifn-date-after" 
+                    name="jialifn_query_options[date_after]" 
+                    placeholder="' . esc_html__('Select ...', 'jiali-float-news') . '" 
+                    value="' . esc_attr($value) . '" />';
     }
 
+    // ORDER BY
     public function fieldOrderBy() {
+        $options = get_option('jialifn_query_options', []);
+        $value = $options['order_by'] ?? '';
+
         echo '<select name="jialifn_query_options[order_by]">
-                <option value="date">'.esc_html__('Date', 'jiali-float-news').'</option>
-                <option value="title">'.esc_html__('Title', 'jiali-float-news').'</option>
-                <option value="modified">'.esc_html__('Last modified', 'jiali-float-news').'</option>
-                <option value="comment_count">'.esc_html__('Comment count', 'jiali-float-news').'</option>
-                <option value="rand">'.esc_html__('Random', 'jiali-float-news').'</option>
+                <option value="date"' . selected($value, 'date', false) . '>' . esc_html__('Date', 'jiali-float-news') . '</option>
+                <option value="title"' . selected($value, 'title', false) . '>' . esc_html__('Title', 'jiali-float-news') . '</option>
+                <option value="modified"' . selected($value, 'modified', false) . '>' . esc_html__('Last modified', 'jiali-float-news') . '</option>
+                <option value="comment_count"' . selected($value, 'comment_count', false) . '>' . esc_html__('Comment count', 'jiali-float-news') . '</option>
+                <option value="rand"' . selected($value, 'rand', false) . '>' . esc_html__('Random', 'jiali-float-news') . '</option>
             </select>';
     }
 
+    // ORDER
     public function fieldOrder() {
+        $options = get_option('jialifn_query_options', []);
+        $value = $options['order'] ?? '';
+
         echo '<select name="jialifn_query_options[order]">
-                <option value="DESC">'.esc_html__('DESC', 'jiali-float-news').'</option>
-                <option value="ASC">'.esc_html__('ASC', 'jiali-float-news').'</option>
+                <option value="DESC"' . selected($value, 'DESC', false) . '>' . esc_html__('DESC', 'jiali-float-news') . '</option>
+                <option value="ASC"' . selected($value, 'ASC', false) . '>' . esc_html__('ASC', 'jiali-float-news') . '</option>
             </select>';
     }
 

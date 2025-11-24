@@ -6,6 +6,7 @@ jQuery(document).ready(function ($) {
     const hide = value === "manual_selection";
     $(".jialifn-query-exception-section-wrapper").toggle(!hide);
     $(".jialifn-query-date-section-wrapper").toggle(!hide);
+    $(".jialifn-query-order-section-wrapper").toggle(!hide);
     $(".jialifn-manual-sources-wrapper").toggle(hide);
   }
 
@@ -27,10 +28,18 @@ jQuery(document).ready(function ($) {
     $(".jialifn-manual-excluded-sources-wrapper").toggle(showManualSelection);
   }
 
+  // Check date range field dependencies to show
+  function handleDateRangeDependencies(value) {
+    const show = value === "custom";
+    $(".jialifn-date-before-wrapper").toggle(show);
+    $(".jialifn-date-after-wrapper").toggle(show);
+  }
+
   // Run on page load
   handleSourceDependencies($(".jialifn-source").val());
   handleIncludeByDependencies($(".jialifn-include-by").val() || []);
   handleExcludeByDependencies($(".jialifn-exclude-by").val() || []);
+  handleDateRangeDependencies($(".jialifn-date-range").val());
 
   // Get source
   $(".jialifn-source").on("change", function () {
@@ -228,6 +237,12 @@ jQuery(document).ready(function ($) {
         };
       },
     },
+  });
+
+  // Get Date Range
+  $(".jialifn-date-range").on("change", function () {
+    const value = $(this).val();
+    handleDateRangeDependencies(value);
   });
 
   // Date before
