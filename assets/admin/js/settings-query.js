@@ -1,24 +1,27 @@
 jQuery(document).ready(function ($) {
 
   "use strict";
+  
   // Check field dependencies to show
-  function checkFieldDependencies() { 
+  function handleSourceDependencies(value) { 
     
+    const hide = (value === 'manual_selection');
+
+    $('.jialifn-query-exception-section-wrapper').toggle(!hide);
+    $('.jialifn-query-date-section-wrapper').toggle(!hide);
+    $('.jialifn-manual-sources-wrapper').toggle(hide);
+
   }
+
+  // Run on page load
+  handleSourceDependencies($('.jialifn-source').val());
 
   // Get source
   $('.jialifn-source').on('change', function() {
+    
     const value = $(this).val();
 
-    if( value === 'manual_ids' ) {
-      $('.jialifn-include-by-wrapper').hide();
-      $('.jialifn-exclude-by-wrapper').hide();
-      $('.jialifn-date-range-wrapper').hide();
-    } else {
-      $('.jialifn-include-by-wrapper').show();
-      $('.jialifn-exclude-by-wrapper').show();
-      $('.jialifn-date-range-wrapper').show();
-    }
+    handleSourceDependencies(value);
 
   })
 

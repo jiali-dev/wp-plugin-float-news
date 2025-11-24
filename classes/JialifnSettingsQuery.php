@@ -19,41 +19,58 @@ class JialifnSettingsQuery {
 
         register_setting('jialifn_query_group', 'jialifn_query_options');
 
+        // --- Source Section ---
         add_settings_section(
-            'jialifn_query_section',
-            'Query Configuration',
+            'jialifn_query_source_section',
+            esc_html__('Query source configuration', 'jiali-float-news'),
             '__return_false',
-            'jialifn-settings'
+            'jialifn-settings',
+            [
+                'before_section' => '<div class="jialifn-query-source-section-wrapper">',
+                'after_section'  => '</div>',
+            ]
         );
 
         // SOURCE
         add_settings_field(
             'source',
-            'Source',
+            esc_html__('Source', 'jiali-float-news'),
             [ $this, 'fieldSource' ],
             'jialifn-settings',
-            'jialifn_query_section'
+            'jialifn_query_source_section'
         );
 
         // MANUAL SOURCE
         add_settings_field(
             'manual-sources',
-            'Manual sources',
+            esc_html__('Manual sources', 'jiali-float-news'),
             [ $this, 'fieldManualSources' ],
             'jialifn-settings',
-            'jialifn_query_section',
+            'jialifn_query_source_section',
             [
                 'class' => 'jialifn-manual-sources-wrapper'
+            ]
+        );
+
+        // --- Exception Section ---
+        add_settings_section(
+            'jialifn_query_exception_section',
+            esc_html__('Query exception settings', 'jiali-float-news'),
+            '__return_false',
+            'jialifn-settings',
+            [
+                'before_section' => '<div class="jialifn-query-exception-section-wrapper">',
+                'after_section'  => '</div>',
             ]
         );
 
         // INCLUDE TERMS + AUTHORS
         add_settings_field(
             'include-by',
-            'Include by',
+            esc_html__('Include by', 'jiali-float-news'),
             [ $this, 'fieldIncludeBy' ],
             'jialifn-settings',
-            'jialifn_query_section',
+            'jialifn_query_exception_section',
             [
                 'class' => 'jialifn-include-by-wrapper'
             ]
@@ -62,10 +79,10 @@ class JialifnSettingsQuery {
         // INCLUDED TERMS
         add_settings_field(
             'included-terms',
-            'Included terms',
+            esc_html__('Included terms', 'jiali-float-news'),
             [ $this, 'fieldIncludedTerms' ],
             'jialifn-settings',
-            'jialifn_query_section',
+            'jialifn_query_exception_section',
             [
                 'class' => 'jialifn-included-terms-wrapper'
             ]
@@ -74,10 +91,10 @@ class JialifnSettingsQuery {
         // INCLUDED AUTHORS
         add_settings_field(
             'included-authors',
-            'Included authors',
+            esc_html__('Included authors', 'jiali-float-news'),
             [ $this, 'fieldIncludedAuthors' ],
             'jialifn-settings',
-            'jialifn_query_section',
+            'jialifn_query_exception_section',
             [
                 'class' => 'jialifn-included-authors-wrapper'
             ]
@@ -86,10 +103,10 @@ class JialifnSettingsQuery {
         // EXCLUDE TERMS + AUTHORS
         add_settings_field(
             'exclude-by',
-            'Exclude by',
+            esc_html__('Exclude by', 'jiali-float-news'),
             [ $this, 'fieldExcludeBy' ],
             'jialifn-settings',
-            'jialifn_query_section',
+            'jialifn_query_exception_section',
             [
                 'class' => 'jialifn-exclude-by-wrapper'
             ]
@@ -98,10 +115,10 @@ class JialifnSettingsQuery {
         // EXCLUDED TERMS
         add_settings_field(
             'excluded-terms',
-            'Excluded terms',
+            esc_html__('Excluded terms', 'jiali-float-news'),
             [ $this, 'fieldExcludedTerms' ],
             'jialifn-settings',
-            'jialifn_query_section',
+            'jialifn_query_exception_section',
             [
                 'class' => 'jialifn-excluded-terms-wrapper'
             ]
@@ -110,10 +127,10 @@ class JialifnSettingsQuery {
         // EXCLUDED AUTHORS
         add_settings_field(
             'excluded-authors',
-            'Excluded authors',
+            esc_html__('Excluded authors', 'jiali-float-news'),
             [ $this, 'fieldExcludedAuthors' ],
             'jialifn-settings',
-            'jialifn_query_section',
+            'jialifn_query_exception_section',
             [
                 'class' => 'jialifn-excluded-authors-wrapper'
             ]
@@ -122,22 +139,34 @@ class JialifnSettingsQuery {
         // MANUAL EXCLUDED SOURCES
         add_settings_field(
             'manual-excluded-sources',
-            'Manual excluded sources',
+            esc_html__('Manual excluded sources', 'jiali-float-news'),
             [ $this, 'fieldManualExcludedSources' ],
             'jialifn-settings',
-            'jialifn_query_section',
+            'jialifn_query_exception_section',
             [
                 'class' => 'jialifn-manual-excluded-sources-wrapper'
+            ]
+        );
+
+        // --- Date Section ---
+        add_settings_section(
+            'jialifn_query_date_section',
+            esc_html__('Query date settings', 'jiali-float-news'),
+            '__return_false',
+            'jialifn-settings',
+            [
+                'before_section' => '<div class="jialifn-query-date-section-wrapper">',
+                'after_section'  => '</div>',
             ]
         );
 
         // DATE FILTERS
         add_settings_field(
             'date_range',
-            'Date Range',
+            esc_html__('Date range', 'jiali-float-news'),
             [ $this, 'fieldDateRange' ],
             'jialifn-settings',
-            'jialifn_query_section',
+            'jialifn_query_date_section',
             [
                 'class' => 'jialifn-date-range-wrapper'
             ]
@@ -146,10 +175,10 @@ class JialifnSettingsQuery {
         // DATE BEFORE
         add_settings_field(
             'date_before',
-            'Date Before',
+            esc_html__('Date before', 'jiali-float-news'),
             [ $this, 'fieldDateBefore' ],
             'jialifn-settings',
-            'jialifn_query_section',
+            'jialifn_query_date_section',
             [
                 'class' => 'jialifn-date-before-wrapper'
             ]
@@ -158,10 +187,10 @@ class JialifnSettingsQuery {
         // DATE AFTER
         add_settings_field(
             'date_after',
-            'Date After',
+            esc_html__('Date after', 'jiali-float-news'),
             [ $this, 'fieldDateAfter' ],
             'jialifn-settings',
-            'jialifn_query_section',
+            'jialifn_query_date_section',
             [
                 'class' => 'jialifn-date-after-wrapper'
             ]
@@ -170,18 +199,18 @@ class JialifnSettingsQuery {
         // ORDER
         add_settings_field(
             'orderby',
-            'Order By',
+            esc_html__('Order by', 'jiali-float-news'),
             [ $this, 'fieldOrderBy' ],
             'jialifn-settings',
-            'jialifn_query_section'
+            'jialifn_query_date_section'
         );
 
         add_settings_field(
             'order',
-            'Order',
+            esc_html__('Order', 'jiali-float-news'),
             [ $this, 'fieldOrder' ],
             'jialifn-settings',
-            'jialifn_query_section'
+            'jialifn_query_date_section'
         );
     }
 
