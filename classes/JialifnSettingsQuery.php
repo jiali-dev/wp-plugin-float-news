@@ -243,15 +243,43 @@ class JialifnSettingsQuery {
     }
 
     public function fieldIncludeBy() {
-        echo '<select class="jialifn-include-by" name="jialifn_query_options[include_by][]" multiple>
-            <option value="term">'.esc_html__('Term', 'jiali-float-news').'</option>
-            <option value="author">'.esc_html__('Author', 'jiali-float-news').'</option>
-        </select>';
+        // Get saved values (array because multiple select)
+        $options = get_option('jialifn_query_options');
+        $selected_values = $options['include_by'] ?? [];
+
+        echo '<select class="jialifn-include-by" name="jialifn_query_options[include_by][]" multiple>';
+        echo '<option value="term" ' . selected(in_array('term', $selected_values), true, false) . '>'
+                . esc_html__('Term', 'jiali-float-news') .
+            '</option>';
+        echo '<option value="author" ' . selected(in_array('author', $selected_values), true, false) . '>'
+                . esc_html__('Author', 'jiali-float-news') .
+            '</option>';
+        echo '</select>';
     }
 
     public function fieldIncludedTerms() {
-        echo '<select class="jialifn-included-terms" name="jialifn_query_options[included_terms][]" multiple>
-        </select>';
+        // Get saved values (array of term IDs)
+        $options = get_option('jialifn_query_options');
+        $saved_ids = $options['included_terms'] ?? [];
+
+        echo '<select class="jialifn-included-terms" name="jialifn_query_options[included_terms][]" multiple>';
+
+        // If saved terms exist → preload them in <option selected>
+        if (!empty($saved_ids) && is_array($saved_ids)) {
+            foreach ($saved_ids as $term_id) {
+
+                $term = get_term($term_id);
+
+                // Validate term exists
+                if ($term && !is_wp_error($term)) {
+                    echo '<option value="' . esc_attr($term->term_id) . '" selected>'
+                            . esc_html($term->name . ' (' . $term->taxonomy . ')') .
+                        '</option>';
+                }
+            }
+        }
+
+        echo '</select>';
     }
 
     public function fieldIncludedAuthors() {
