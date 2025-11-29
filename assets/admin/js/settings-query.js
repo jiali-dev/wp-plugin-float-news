@@ -15,7 +15,13 @@ jQuery(document).ready(function ($) {
     const showByTerm = values.includes("term");
     const showByAuthor = values.includes("author");
     $(".jialifn-included-terms-wrapper").toggle(showByTerm);
+    if( showByTerm ) {
+      $(".jialifn-included-terms").val(null).trigger('change');
+    }
     $(".jialifn-included-authors-wrapper").toggle(showByAuthor);
+    if( showByAuthor ) {
+      $(".jialifn-included-authors").val(null).trigger('change');
+    }
   }
 
   // Check exclude by field dependencies to show
@@ -45,6 +51,13 @@ jQuery(document).ready(function ($) {
   $(".jialifn-source").on("change", function () {
     const value = $(this).val();
     handleSourceDependencies(value);
+    $(".jialifn-include-by").val(null).trigger('change');
+    $(".jialifn-included-terms").val(null).trigger('change');
+    $(".jialifn-included-authors").val(null).trigger('change');
+    $(".jialifn-exclude-by").val(null).trigger('change');
+    $(".jialifn-excluded-terms").val(null).trigger('change');
+    $(".jialifn-excluded-authors").val(null).trigger('change');
+    $(".jialifn-manual-excluded-sources").val(null).trigger('change');
   });
 
   // Get manual sources
