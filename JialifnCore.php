@@ -7,7 +7,7 @@ class JialifnCore {
 
     private static $instance = null;
 
-    public function __construct() {
+    private function __construct() {
         $this->defineConstants();
         $this->registerAutoload();
         $this->init();
@@ -49,8 +49,18 @@ class JialifnCore {
         add_action('admin_enqueue_scripts', [$this, 'adminRegisterAssets']); // For this project
         
         // include_once(JIALIFN_PLUGIN_PATH.'inc/functions.php');
+        new JialifnJsTranslationHandler();
+
+        JialifnAjaxFunctions::getInstance();
         JialifnRestApi::getInstance();
-        JialifnViews::getInstance();
+        JialifnFrontView::getInstance();
+
+        // Load settings classes early
+        JialifnSettingsQuery::getInstance();
+        JialifnSettingsStyle::getInstance();
+
+        // Load admin menu
+        JialifnAdminMenu::getInstance();
     }
 
     // Start output buffering
@@ -66,8 +76,8 @@ class JialifnCore {
         JialifnRegisterAssets::registerAssets();
     }
 
-    public function adminRegisterAssets() {
-        JialifnRegisterAssets::adminRegisterAssets();
+    public function adminRegisterAssets($hook_suffix) {
+        JialifnRegisterAssets::adminRegisterAssets($hook_suffix);
     }
 
     public static function uninstallation() {

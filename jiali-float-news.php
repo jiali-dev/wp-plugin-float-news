@@ -33,7 +33,7 @@ Prefix Guidance for Aabgine POS Plugin
 Constants:      JIALIFN_      (e.g. JIALIFN_PLUGIN_URL)
 Class Names:    Jialifn       (e.g. JialifnCore )
 DB Tables:      jialifn_         (e.g. jialifn_orders, jialifn_customers)
-Functions:      jialifn_         (e.g.  jialifn_add_bookmark())
+Functions:      jialifn_         (e.g.  jialifn_add_...())
 Text Domain:    jiali-float-news       (for translations)
 
 Always use these prefixes to avoid conflicts and keep code organized.

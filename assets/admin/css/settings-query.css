@@ -1,0 +1,19 @@
+.jialifn-manual-sources-wrapper {
+  display: none;
+}
+
+.jialifn-included-terms-wrapper,
+.jialifn-included-authors-wrapper {
+  display: none;
+}
+
+.jialifn-excluded-terms-wrapper,
+.jialifn-excluded-authors-wrapper,
+.jialifn-manual-excluded-sources-wrapper {
+  display: none;
+}
+
+.jialifn-date-before-wrapper,
+.jialifn-date-after-wrapper {
+  display: none;
+}
