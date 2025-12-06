@@ -30,9 +30,67 @@ class JialifnRestApi {
             'callback' => [ $this, 'getPosts' ],
             'permission_callback' => '__return_true',
             'args' => [
-                'count' => [
-                    'default' => 10,
-                    'sanitize_callback' => 'absint',
+                'source' => [
+                    'default' => null,
+                    'sanitize_callback' => 'sanitize_text_field',
+                ],
+                'manual_sources' => [
+                    'default' => [],
+                    'sanitize_callback' => function($v){
+                        return array_map('absint', (array)$v);
+                    }
+                ],
+                'include_by' => [
+                    'default' => [],
+                    'sanitize_callback' => function($v){
+                        return array_map('sanitize_text_field', (array)$v);
+                    }
+                ],
+                'included_terms' => [
+                    'default' => [],
+                    'sanitize_callback' => function($v){
+                        return array_map('absint', (array)$v);
+                    }
+                ],
+                'included_authors' => [
+                    'default' => [],
+                    'sanitize_callback' => function($v){
+                        return array_map('absint', (array)$v);
+                    }
+                ],
+                'exclude_by' => [
+                    'default' => [],
+                    'sanitize_callback' => function($v){
+                        return array_map('sanitize_text_field', (array)$v);
+                    }
+                ],
+                'excluded_terms' => [
+                    'default' => [],
+                    'sanitize_callback' => function($v){
+                        return array_map('absint', (array)$v);
+                    }
+                ],
+                'excluded_authors' => [
+                    'default' => [],
+                    'sanitize_callback' => function($v){
+                        return array_map('absint', (array)$v);
+                    }
+                ],
+                'manual_excluded_sources' => [
+                    'default' => [],
+                    'sanitize_callback' => function($v){
+                        return array_map('absint', (array)$v);
+                    }
+                ],
+                'date_range' => [
+                    'default' => 'all',
+                    'sanitize_callback' => 'sanitize_text_field',
+                ],
+                'date_after' => [
+                    'sanitize_callback' => 'sanitize_text_field',
+                ],
+                'date_before' => [
+                    'sanitize_callback' => 'sanitize_text_field',
                 ],
                 'orderby' => [
                     'default' => 'date',
@@ -42,17 +100,12 @@ class JialifnRestApi {
                     'default' => 'DESC',
                     'sanitize_callback' => 'sanitize_text_field',
                 ],
-                'category' => [
+                'count' => [
+                    'default' => 10,
                     'sanitize_callback' => 'absint',
                 ],
-                'tag' => [
-                    'sanitize_callback' => 'absint',
-                ],
-                'random' => [
-                    'default' => false,
-                    'sanitize_callback' => 'rest_sanitize_boolean',
-                ],
-            ],
+
+            ]
         ] );
     }
 
@@ -61,44 +114,199 @@ class JialifnRestApi {
      */
     public function getPosts( WP_REST_Request $request ) {
 
+        // Base args
+        $orderby = $request->get_param('orderby') ?: 'date';
+        $order = $request->get_param('order') ?: 'DESC';
+        $count = $request->get_param('count') ?: 10;
+        
         $args = [
-            'posts_per_page' => $request['count'],
+            'posts_per_page' => $count,
             'post_status'    => 'publish',
-            'orderby'        => $request['random'] ? 'rand' : $request['orderby'],
-            'order'          => $request['order'],
+            'orderby'        => $orderby,
+            'order'          => $order,
         ];
 
-        if ( $request['category'] ) {
-            $args['cat'] = $request['category'];
-        }
+        // Get post type from settings
+        $source = $request->get_param('source') ?: 'post';
+        
+        // ---------------------------
+        // MANUAL SOURCES MODE
+        // ---------------------------        
+        if( $source === 'manual_sources') {
+            
+            $manual_sources   = $request->get_param('manual_sources') ?: [];
 
-        if ( $request['tag'] ) {
-            $args['tag_id'] = $request['tag'];
-        }
+            if( !empty( $manual_sources ) )
+                $args['post__in'] = array_map('intval', $manual_sources);
 
-        // Generate unique cache key based on args
-        $cache_key = 'jiali_float_news_' . md5( wp_json_encode( $args ) );
-        $posts = get_transient( $cache_key );
+        } else {
+            
+            // NORMAL MODE → apply all filters
+            $args['post_type'] = $source;
 
-        if ( false === $posts ) {
-            $query = new WP_Query( $args );
-            $posts = [];
+            // =====================================================
+            // INCLUDE / EXCLUDE
+            // =====================================================
+            $include_by = (array) ($request->get_param('include_by') ?: []);
+            $exclude_by = (array) ($request->get_param('exclude_by') ?: []);
+            
+            // =====================================================
+            // TERM FILTERS
+            // =====================================================
+            $included_terms = array_map('intval', (array) $request->get_param('included_terms'));
+            $excluded_terms = array_map('intval', (array) $request->get_param('excluded_terms'));
 
-            while ( $query->have_posts() ) {
-                $query->the_post();
-                $posts[] = [
-                    'id'    => get_the_ID(),
-                    'title' => get_the_title(),
-                    'link'  => get_permalink(),
-                    'image' => get_the_post_thumbnail_url( get_the_ID(), 'thumbnail' ),
+            $tax_query = [];
+
+            // --- INCLUDE TERMS ---
+            if (in_array('term', $include_by) && !empty($included_terms)) {
+
+                foreach ($included_terms as $term_id) {
+                    $term = get_term($term_id);
+
+                    if ($term && !is_wp_error($term)) {
+                        $tax_query[] = [
+                            'taxonomy' => $term->taxonomy,
+                            'field'    => 'term_id',
+                            'terms'    => [$term_id],
+                            'operator' => 'IN',
+                        ];
+                    }
+                }
+            }
+
+            // --- EXCLUDE TERMS ---
+            if (in_array('term', $exclude_by) && !empty($excluded_terms)) {
+
+                foreach ($excluded_terms as $term_id) {
+                    $term = get_term($term_id);
+
+                    if ($term && !is_wp_error($term)) {
+                        $tax_query[] = [
+                            'taxonomy' => $term->taxonomy,
+                            'field'    => 'term_id',
+                            'terms'    => [$term_id],
+                            'operator' => 'NOT IN',
+                        ];
+                    }
+                }
+            }
+
+            // Attach final tax_query (if any)
+            if (!empty($tax_query)) {
+                $args['tax_query'] = [
+                    'relation' => 'OR',
+                    ...$tax_query
                 ];
             }
-            wp_reset_postdata();
 
-            // Cache for 10 minutes
-            set_transient( $cache_key, $posts, 10 * MINUTE_IN_SECONDS );
+            // ====================================================
+            // AUTHOR FILTERS
+            // =====================================================
+
+            $include_authors = array_map('intval', (array) $request->get_param('included_authors'));
+            $exclude_authors = array_map('intval', (array) $request->get_param('excluded_authors'));
+
+            if (in_array('author', $include_by) && !empty($include_authors)) {
+                $args['author__in'] = $include_authors;
+            }
+
+            if (in_array('author', $exclude_by) && !empty($exclude_authors)) {
+                $args['author__not_in'] = $exclude_authors;
+            }
+            // wp_die(jve_pretty_var_dump($args)); // For debugging purposes
+
+            // =====================================================
+            // MANUAL EXCLUDED POSTS
+            // =====================================================
+            if (in_array('manual_source', $exclude_by)) {
+                $manual_excluded = array_map('intval', (array) $request->get_param('manual_excluded_sources'));
+                if (!empty($manual_excluded)) {
+                    $args['post__not_in'] = $manual_excluded;
+                }
+            }
+
+            $date_range = $request->get_param('date_range') ?: 'all';
+
+            if( $date_range !== 'all' ) {
+                $date_query = [];
+
+                switch( $date_range ) {
+                    case 'past_day':
+                        $date_query[] = [ 'after' => '1 day ago', 'inclusive' => true ];
+                        break;
+
+                    case 'past_week':
+                        $date_query[] = [ 'after' => '1 week ago', 'inclusive' => true ];
+                        break;
+
+                    case 'past_month':
+                        $date_query[] = [ 'after' => '1 month ago', 'inclusive' => true ];
+                        break;
+
+                    case 'past_year':
+                        $date_query[] = [ 'after' => '1 year ago', 'inclusive' => true ];
+                        break;
+
+                    case 'custom':
+                        $range = [];
+
+                        $date_after = $request->get_param('date_after') ?: '';
+                        $date_before = $request->get_param('date_before') ?: '';
+
+                        if( !empty( $date_after ) ) {
+                            $range['after'] = $date_after;
+                        }
+
+                        if( !empty( $date_before ) ) {
+                            $range['before'] = $date_before;
+                        }
+
+                        if( !empty( $range ) ) {
+                            $range['inclusive'] = true;
+                            $date_query[] = $range;
+                        }
+                        break;
+                }
+
+                if( !empty( $date_query ) ) {
+                    $args['date_query'] = $date_query;
+                }
+            }
         }
 
-        return rest_ensure_response( $posts );
+        // ---------------------------
+        // CACHING (BASED ON WP_QUERY ARGS)
+        // ---------------------------
+        $cache_key = 'jialifn_' . md5(json_encode($args));
+        $posts = get_transient($cache_key);
+
+        if ($posts !== false) {
+            return $posts;
+        }
+
+        // ---------------------------
+        // RUN QUERY
+        // ---------------------------
+        $query = new WP_Query($args);
+        $posts = [];
+
+        while ($query->have_posts()) {
+            $query->the_post();
+            $posts[] = [
+                'id'    => get_the_ID(),
+                'title' => get_the_title(),
+                'link'  => get_permalink(),
+                'image' => get_the_post_thumbnail_url(get_the_ID(), 'thumbnail'),
+            ];
+        }
+
+        wp_reset_postdata();
+
+        // Cache 10 minutes
+        set_transient($cache_key, $posts, 10 * MINUTE_IN_SECONDS);
+
+        return $posts;
     }
+
 }

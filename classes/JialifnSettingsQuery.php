@@ -169,18 +169,6 @@ class JialifnSettingsQuery {
             'jialifn_query_date_section'
         );
 
-        // DATE BEFORE
-        add_settings_field(
-            'date_before',
-            esc_html__('Date before', 'jiali-float-news'),
-            [ $this, 'fieldDateBefore' ],
-            'jialifn-settings',
-            'jialifn_query_date_section',
-            [
-                'class' => 'jialifn-date-before-wrapper'
-            ]
-        );
-
         // DATE AFTER
         add_settings_field(
             'date_after',
@@ -190,6 +178,18 @@ class JialifnSettingsQuery {
             'jialifn_query_date_section',
             [
                 'class' => 'jialifn-date-after-wrapper'
+            ]
+        );
+
+        // DATE BEFORE
+        add_settings_field(
+            'date_before',
+            esc_html__('Date before', 'jiali-float-news'),
+            [ $this, 'fieldDateBefore' ],
+            'jialifn-settings',
+            'jialifn_query_date_section',
+            [
+                'class' => 'jialifn-date-before-wrapper'
             ]
         );
 
@@ -241,7 +241,7 @@ class JialifnSettingsQuery {
             }
             echo "<option value='{$key}' " . selected($value, $key, false) . ">{$pt->label}</option>";
         }
-        echo '<option value="manual_selection" ' . selected($value, 'manual_selection', false) . '>' . esc_html__('Manual selection', 'jiali-float-news') . '</option>';
+        echo '<option value="manual_sources" ' . selected($value, 'manual_sources', false) . '>' . esc_html__('Manual sources', 'jiali-float-news') . '</option>';
 
         echo '</select>';
     }
@@ -357,14 +357,15 @@ class JialifnSettingsQuery {
         echo '<option value="author" ' . selected(in_array('author', $selected_values), true, false) . '>'
                 . esc_html__('Author', 'jiali-float-news') .
             '</option>';
-        echo '<option value="manual_selection" ' . selected(in_array('manual_selection', $selected_values), true, false) . '>'
-                . esc_html__('Manual selection', 'jiali-float-news') .
+        echo '<option value="manual_sources" ' . selected(in_array('manual_sources', $selected_values), true, false) . '>'
+                . esc_html__('Manual sources', 'jiali-float-news') .
             '</option>';
         echo '</select>';
     }
 
     // EXCLUDED TERMS
     public function fieldExcludedTerms() {
+        
         // Get saved values (array of term IDs)
         $options = get_option('jialifn_query_options');
         $saved_ids = $options['excluded_terms'] ?? [];
@@ -468,10 +469,10 @@ class JialifnSettingsQuery {
         $value = $options['date_before'] ?? '';
 
         echo '<input type="text" 
-                    class="jialifn-date-before" 
-                    name="jialifn_query_options[date_before]" 
-                    placeholder="' . esc_html__('Select ...', 'jiali-float-news') . '" 
-                    value="' . esc_attr($value) . '" />';
+            class="jialifn-date-before" 
+            name="jialifn_query_options[date_before]" 
+            placeholder="' . esc_html__('Select ...', 'jiali-float-news') . '" 
+            value="' . esc_attr($value) . '" />';
     }
 
     // DATE AFTER
@@ -480,10 +481,10 @@ class JialifnSettingsQuery {
         $value = $options['date_after'] ?? '';
 
         echo '<input type="text" 
-                    class="jialifn-date-after" 
-                    name="jialifn_query_options[date_after]" 
-                    placeholder="' . esc_html__('Select ...', 'jiali-float-news') . '" 
-                    value="' . esc_attr($value) . '" />';
+            class="jialifn-date-after" 
+            name="jialifn_query_options[date_after]" 
+            placeholder="' . esc_html__('Select ...', 'jiali-float-news') . '" 
+            value="' . esc_attr($value) . '" />';
     }
 
     // ORDER BY
