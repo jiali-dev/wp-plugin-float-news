@@ -149,72 +149,85 @@ class JialifnRestApi {
             // =====================================================
             $include_by = (array) ($request->get_param('include_by') ?: []);
             $exclude_by = (array) ($request->get_param('exclude_by') ?: []);
-            
+
             // =====================================================
             // TERM FILTERS
             // =====================================================
             $included_terms = array_map('intval', (array) $request->get_param('included_terms'));
             $excluded_terms = array_map('intval', (array) $request->get_param('excluded_terms'));
 
-            $tax_query = [];
+            $tax_query = [
+                'relation' => 'AND',
+            ];
 
-            // --- INCLUDE TERMS ---
-            if (in_array('term', $include_by) && !empty($included_terms)) {
+            // ----------------------------------------------
+            // INCLUDED TERMS  →  OR relation
+            // ----------------------------------------------
+            if ( !empty($included_terms) && in_array('term', $include_by)) {
+
+                $included_rows = [];
 
                 foreach ($included_terms as $term_id) {
                     $term = get_term($term_id);
+                    if (!$term || is_wp_error($term)) continue;
 
-                    if ($term && !is_wp_error($term)) {
-                        $tax_query[] = [
-                            'taxonomy' => $term->taxonomy,
-                            'field'    => 'term_id',
-                            'terms'    => [$term_id],
-                            'operator' => 'IN',
-                        ];
-                    }
+                    $included_rows[] = [
+                        'taxonomy' => $term->taxonomy,
+                        'field'    => 'term_id',
+                        'terms'    => [$term_id],
+                        'operator' => 'IN',
+                    ];
+                }
+
+                if (!empty($included_rows)) {
+                    $tax_query[] = array_merge(['relation' => 'OR'], $included_rows);
                 }
             }
 
-            // --- EXCLUDE TERMS ---
-            if (in_array('term', $exclude_by) && !empty($excluded_terms)) {
+            // ----------------------------------------------
+            // EXCLUDED TERMS  →  AND relation
+            // ----------------------------------------------
+            if (!empty($excluded_terms) && in_array('term', $exclude_by)) {
+
+                $excluded_rows = [];
 
                 foreach ($excluded_terms as $term_id) {
                     $term = get_term($term_id);
+                    if (!$term || is_wp_error($term)) continue;
 
-                    if ($term && !is_wp_error($term)) {
-                        $tax_query[] = [
-                            'taxonomy' => $term->taxonomy,
-                            'field'    => 'term_id',
-                            'terms'    => [$term_id],
-                            'operator' => 'NOT IN',
-                        ];
-                    }
+                    $excluded_rows[] = [
+                        'taxonomy' => $term->taxonomy,
+                        'field'    => 'term_id',
+                        'terms'    => [$term_id],
+                        'operator' => 'NOT IN',
+                    ];
+                }
+
+                if (!empty($excluded_rows)) {
+                    $tax_query[] = array_merge(['relation' => 'AND'], $excluded_rows);
                 }
             }
 
-            // Attach final tax_query (if any)
             if (!empty($tax_query)) {
-                $args['tax_query'] = [
-                    'relation' => 'OR',
-                    ...$tax_query
-                ];
+                $args['tax_query'] = $tax_query;
             }
+
+            // wp_die(jve_pretty_var_dump($args)); // For debugging purposes
 
             // ====================================================
             // AUTHOR FILTERS
             // =====================================================
 
-            $include_authors = array_map('intval', (array) $request->get_param('included_authors'));
-            $exclude_authors = array_map('intval', (array) $request->get_param('excluded_authors'));
+            $included_authors = array_map('intval', (array) $request->get_param('included_authors'));
+            $excluded_authors = array_map('intval', (array) $request->get_param('excluded_authors'));
 
-            if (in_array('author', $include_by) && !empty($include_authors)) {
-                $args['author__in'] = $include_authors;
+            if (in_array('author', $include_by) && !empty($included_authors)) {
+                $args['author__in'] = $included_authors;
             }
 
-            if (in_array('author', $exclude_by) && !empty($exclude_authors)) {
-                $args['author__not_in'] = $exclude_authors;
+            if (in_array('author', $exclude_by) && !empty($excluded_authors)) {
+                $args['author__not_in'] = $excluded_authors;
             }
-            // wp_die(jve_pretty_var_dump($args)); // For debugging purposes
 
             // =====================================================
             // MANUAL EXCLUDED POSTS
