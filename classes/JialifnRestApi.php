@@ -217,16 +217,37 @@ class JialifnRestApi {
             // ====================================================
             // AUTHOR FILTERS
             // =====================================================
-
             $included_authors = array_map('intval', (array) $request->get_param('included_authors'));
             $excluded_authors = array_map('intval', (array) $request->get_param('excluded_authors'));
 
-            if (in_array('author', $include_by) && !empty($included_authors)) {
-                $args['author__in'] = $included_authors;
-            }
+            $has_include_filter = in_array('author', $include_by);
+            $has_exclude_filter = in_array('author', $exclude_by);
 
-            if (in_array('author', $exclude_by) && !empty($excluded_authors)) {
-                $args['author__not_in'] = $excluded_authors;
+            // Step 1: If include filter is enabled, include list defines the universe
+            if ($has_include_filter) {
+
+                // Remove excluded from included
+                if (!empty($excluded_authors)) {
+                    $included_authors = array_diff($included_authors, $excluded_authors);
+                }
+
+                // Step 2: If no authors remain → return nothing
+                if (!empty($included_authors)) {
+
+                    // Step 3: Use remaining authors as the only valid ones
+                    $args['author__in'] = $included_authors;
+
+                } else {
+                    // No authors remain → return nothing
+                    $args['post__in'] = [0];
+                }
+
+            } else {
+
+                // No include filter → exclude normally
+                if ($has_exclude_filter && !empty($excluded_authors)) {
+                    $args['author__not_in'] = $excluded_authors;
+                }
             }
 
             // =====================================================
@@ -311,6 +332,7 @@ class JialifnRestApi {
                 'title' => get_the_title(),
                 'link'  => get_permalink(),
                 'image' => get_the_post_thumbnail_url(get_the_ID(), 'thumbnail'),
+                'author' => get_the_author(),
             ];
         }
 
