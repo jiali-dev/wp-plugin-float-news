@@ -212,8 +212,6 @@ class JialifnRestApi {
                 $args['tax_query'] = $tax_query;
             }
 
-            // wp_die(jve_pretty_var_dump($args)); // For debugging purposes
-
             // ====================================================
             // AUTHOR FILTERS
             // =====================================================
@@ -260,54 +258,97 @@ class JialifnRestApi {
                 }
             }
 
+            // Date range
             $date_range = $request->get_param('date_range') ?: 'all';
 
-            if( $date_range !== 'all' ) {
+            // choose which column to filter: 'post_date' or 'post_modified'
+            $date_column = 'post_modified';
+
+            if ( $date_range !== 'all' ) {
                 $date_query = [];
 
-                switch( $date_range ) {
+                switch ( $date_range ) {
                     case 'past_day':
-                        $date_query[] = [ 'after' => '1 day ago', 'inclusive' => true ];
+                        $date_query[] = [
+                            'column'    => $date_column,
+                            'after'     => date_i18n( 'Y-m-d H:i:s', strtotime( '-1 day' ) ),
+                            'inclusive' => true,
+                        ];
                         break;
 
                     case 'past_week':
-                        $date_query[] = [ 'after' => '1 week ago', 'inclusive' => true ];
+                        $date_query[] = [
+                            'column'    => $date_column,
+                            'after'     => date_i18n( 'Y-m-d H:i:s', strtotime( '-1 week' ) ),
+                            'inclusive' => true,
+                        ];
                         break;
 
                     case 'past_month':
-                        $date_query[] = [ 'after' => '1 month ago', 'inclusive' => true ];
+                        $date_query[] = [
+                            'column'    => $date_column,
+                            'after'     => date_i18n( 'Y-m-d H:i:s', strtotime( '-1 month' ) ),
+                            'inclusive' => true,
+                        ];
                         break;
 
                     case 'past_year':
-                        $date_query[] = [ 'after' => '1 year ago', 'inclusive' => true ];
+                        $date_query[] = [
+                            'column'    => $date_column,
+                            'after'     => date_i18n( 'Y-m-d H:i:s', strtotime( '-1 year' ) ),
+                            'inclusive' => true,
+                        ];
                         break;
 
                     case 'custom':
                         $range = [];
 
-                        $date_after = $request->get_param('date_after') ?: '';
-                        $date_before = $request->get_param('date_before') ?: '';
+                        $raw_after  = trim( $request->get_param('date_after') );
+                        $raw_before = trim( $request->get_param('date_before') );
 
-                        if( !empty( $date_after ) ) {
-                            $range['after'] = $date_after;
+                        // Automatically append seconds if missing (HH:MM → HH:MM:00)
+                        if ( preg_match('/^\d{4}-\d{2}-\d{2} \d{2}:\d{2}$/', $raw_after ) ) {
+                            $raw_after .= ':00';
+                        }
+                        if ( preg_match('/^\d{4}-\d{2}-\d{2} \d{2}:\d{2}$/', $raw_before ) ) {
+                            $raw_before .= ':00';
                         }
 
-                        if( !empty( $date_before ) ) {
-                            $range['before'] = $date_before;
+                        // validate after
+                        if ( !empty($raw_after) ) {
+                            $ts = strtotime($raw_after);
+                            if ( $ts !== false ) {
+                                $range['after'] = date('Y-m-d H:i:s', $ts);
+                            }
                         }
 
-                        if( !empty( $range ) ) {
+                        // validate before
+                        if ( !empty($raw_before) ) {
+                            $ts = strtotime($raw_before);
+                            if ( $ts !== false ) {
+                                $range['before'] = date('Y-m-d H:i:s', $ts);
+                            }
+                        }
+
+                        if ( ! empty( $range ) ) {
+                            $range['column']    = $date_column; // post_date OR post_modified
                             $range['inclusive'] = true;
-                            $date_query[] = $range;
+                            $date_query[]       = $range;
                         }
                         break;
+
                 }
 
-                if( !empty( $date_query ) ) {
+                if ( ! empty( $date_query ) ) {
+                    // if you want to combine multiple date clauses, you can set relation.
+                    // usually there is only one clause, so this is fine:
                     $args['date_query'] = $date_query;
                 }
             }
+
         }
+        // wp_die(jve_pretty_var_dump($args)); // For debugging purposes
+
 
         // ---------------------------
         // CACHING (BASED ON WP_QUERY ARGS)
@@ -331,8 +372,7 @@ class JialifnRestApi {
                 'id'    => get_the_ID(),
                 'title' => get_the_title(),
                 'link'  => get_permalink(),
-                'image' => get_the_post_thumbnail_url(get_the_ID(), 'thumbnail'),
-                'author' => get_the_author(),
+                'image' => get_the_post_thumbnail_url(get_the_ID(), 'thumbnail')
             ];
         }
 
