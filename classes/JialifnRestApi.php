@@ -126,90 +126,95 @@ class JialifnRestApi {
             'order'          => $order,
         ];
 
-        // Get post type from settings
-        $source = $request->get_param('source') ?: 'post';
-        
+        // Get post type from settings (validate against public post types)
+        $raw_source = trim( (string) $request->get_param('source') );
+        $public_pts = array_keys( get_post_types( [ 'public' => true ] ) );
+
+        // Accept 'manual' or 'manual_sources' as manual selection mode
+        $is_manual_mode = in_array( $raw_source, [ 'manual', 'manual_sources' ], true );
+
+        // Normalize source to a valid post type when not manual
+        $source = $is_manual_mode ? 'post' : ( in_array( $raw_source, $public_pts, true ) ? $raw_source : 'post' );
+        wp_die(jve_pretty_var_dump($source)); // For debugging purposes
+
         // ---------------------------
         // MANUAL SOURCES MODE
-        // ---------------------------        
-        if( $source === 'manual_sources') {
-            
-            $manual_sources   = $request->get_param('manual_sources') ?: [];
+        // ---------------------------
+        if ( $is_manual_mode ) {
+            $manual_sources = array_map( 'intval', (array) $request->get_param('manual_sources') );
 
-            if( !empty( $manual_sources ) )
-                $args['post__in'] = array_map('intval', $manual_sources);
+            if ( ! empty( $manual_sources ) ) {
+                $args['post__in'] = $manual_sources;
+            }
 
         } else {
-            
             // NORMAL MODE → apply all filters
             $args['post_type'] = $source;
 
             // =====================================================
             // INCLUDE / EXCLUDE
             // =====================================================
-            $include_by = (array) ($request->get_param('include_by') ?: []);
-            $exclude_by = (array) ($request->get_param('exclude_by') ?: []);
+            $include_by = (array) ( $request->get_param('include_by') ?: [] );
+            $exclude_by = (array) ( $request->get_param('exclude_by') ?: [] );
 
             // =====================================================
-            // TERM FILTERS
+            // TERM FILTERS — build grouped tax_query only if needed
             // =====================================================
-            $included_terms = array_map('intval', (array) $request->get_param('included_terms'));
-            $excluded_terms = array_map('intval', (array) $request->get_param('excluded_terms'));
+            $included_terms = array_filter( array_map( 'intval', (array) $request->get_param( 'included_terms' ) ) );
+            $excluded_terms = array_filter( array_map( 'intval', (array) $request->get_param( 'excluded_terms' ) ) );
 
-            $tax_query = [
-                'relation' => 'AND',
-            ];
+            $tax_groups = [];
 
-            // ----------------------------------------------
-            // INCLUDED TERMS  →  OR relation
-            // ----------------------------------------------
-            if ( !empty($included_terms) && in_array('term', $include_by)) {
-
+            // Included terms: create an OR group where each term is its own clause (matches any)
+            if ( ! empty( $included_terms ) && in_array( 'term', $include_by, true ) ) {
                 $included_rows = [];
-
-                foreach ($included_terms as $term_id) {
-                    $term = get_term($term_id);
-                    if (!$term || is_wp_error($term)) continue;
-
+                foreach ( $included_terms as $term_id ) {
+                    $term = get_term( $term_id );
+                    if ( ! $term || is_wp_error( $term ) ) {
+                        continue;
+                    }
                     $included_rows[] = [
                         'taxonomy' => $term->taxonomy,
                         'field'    => 'term_id',
-                        'terms'    => [$term_id],
+                        'terms'    => [ $term_id ],
                         'operator' => 'IN',
                     ];
                 }
-
-                if (!empty($included_rows)) {
-                    $tax_query[] = array_merge(['relation' => 'OR'], $included_rows);
+                if ( ! empty( $included_rows ) ) {
+                    // group with OR relation
+                    $tax_groups[] = array_merge( [ 'relation' => 'OR' ], $included_rows );
                 }
             }
 
-            // ----------------------------------------------
-            // EXCLUDED TERMS  →  AND relation
-            // ----------------------------------------------
-            if (!empty($excluded_terms) && in_array('term', $exclude_by)) {
-
+            // Excluded terms: create an AND group with NOT IN per term
+            if ( ! empty( $excluded_terms ) && in_array( 'term', $exclude_by, true ) ) {
                 $excluded_rows = [];
-
-                foreach ($excluded_terms as $term_id) {
-                    $term = get_term($term_id);
-                    if (!$term || is_wp_error($term)) continue;
-
+                foreach ( $excluded_terms as $term_id ) {
+                    $term = get_term( $term_id );
+                    if ( ! $term || is_wp_error( $term ) ) {
+                        continue;
+                    }
                     $excluded_rows[] = [
                         'taxonomy' => $term->taxonomy,
                         'field'    => 'term_id',
-                        'terms'    => [$term_id],
+                        'terms'    => [ $term_id ],
                         'operator' => 'NOT IN',
                     ];
                 }
-
-                if (!empty($excluded_rows)) {
-                    $tax_query[] = array_merge(['relation' => 'AND'], $excluded_rows);
+                if ( ! empty( $excluded_rows ) ) {
+                    $tax_groups[] = array_merge( [ 'relation' => 'AND' ], $excluded_rows );
                 }
             }
 
-            if (!empty($tax_query)) {
-                $args['tax_query'] = $tax_query;
+            // Attach tax_query only if we have at least one group
+            if ( ! empty( $tax_groups ) ) {
+                // If multiple groups exist, combine them with a top-level AND relation
+                if ( count( $tax_groups ) > 1 ) {
+                    $args['tax_query'] = array_merge( [ 'relation' => 'AND' ], $tax_groups );
+                } else {
+                    // single group — use it directly
+                    $args['tax_query'] = reset( $tax_groups );
+                }
             }
 
             // ====================================================
@@ -251,9 +256,10 @@ class JialifnRestApi {
             // =====================================================
             // MANUAL EXCLUDED POSTS
             // =====================================================
-            if (in_array('manual_source', $exclude_by)) {
-                $manual_excluded = array_map('intval', (array) $request->get_param('manual_excluded_sources'));
-                if (!empty($manual_excluded)) {
+            // support both 'manual_source' and 'manual_sources' keys from different UI variants
+            if ( in_array( 'manual_source', $exclude_by, true ) || in_array( 'manual_sources', $exclude_by, true ) ) {
+                $manual_excluded = array_map( 'intval', (array) $request->get_param( 'manual_excluded_sources' ) );
+                if ( ! empty( $manual_excluded ) ) {
                     $args['post__not_in'] = $manual_excluded;
                 }
             }
@@ -347,8 +353,6 @@ class JialifnRestApi {
             }
 
         }
-        // wp_die(jve_pretty_var_dump($args)); // For debugging purposes
-
 
         // ---------------------------
         // CACHING (BASED ON WP_QUERY ARGS)
