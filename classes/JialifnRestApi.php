@@ -354,14 +354,15 @@ class JialifnRestApi {
 
         }
 
-        // ---------------------------
-        // CACHING (BASED ON WP_QUERY ARGS)
-        // ---------------------------
-        $cache_key = 'jialifn_' . md5(json_encode($args));
-        $posts = get_transient($cache_key);
+        // CACHING USING CACHE MANAGER CLASS
+        // ------------------------------------
+        $cacheManager = JialifnCacheManager::getInstance();
 
-        if ($posts !== false) {
-            return $posts;
+        // Try to get cached data based on $args
+        $cached_posts = $cacheManager->getCache($args);
+
+        if ($cached_posts !== false) {
+            return $cached_posts;
         }
 
         // ---------------------------
@@ -382,8 +383,10 @@ class JialifnRestApi {
 
         wp_reset_postdata();
 
-        // Cache 10 minutes
-        set_transient($cache_key, $posts, 10 * MINUTE_IN_SECONDS);
+        // ------------------------------------
+        // SAVE CACHE (10 minutes)
+        // ------------------------------------
+        $cacheManager->setCache($args, $posts, 10 * MINUTE_IN_SECONDS);
 
         return $posts;
     }

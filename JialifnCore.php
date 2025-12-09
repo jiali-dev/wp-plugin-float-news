@@ -61,6 +61,9 @@ class JialifnCore {
 
         // Load admin menu
         JialifnAdminMenu::getInstance();
+
+        // Cache Manager
+        JialifnCacheManager::getInstance();
     }
 
     // Start output buffering
