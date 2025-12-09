@@ -134,8 +134,10 @@ class JialifnRestApi {
         $is_manual_mode = in_array( $raw_source, [ 'manual', 'manual_sources' ], true );
 
         // Normalize source to a valid post type when not manual
-        $source = $is_manual_mode ? 'post' : ( in_array( $raw_source, $public_pts, true ) ? $raw_source : 'post' );
-        wp_die(jve_pretty_var_dump($source)); // For debugging purposes
+        $source = $is_manual_mode ? 'any' : ( in_array( $raw_source, $public_pts, true ) ? $raw_source : 'post' );
+
+        // NORMAL MODE → apply all filters
+        $args['post_type'] = $source;
 
         // ---------------------------
         // MANUAL SOURCES MODE
@@ -148,8 +150,6 @@ class JialifnRestApi {
             }
 
         } else {
-            // NORMAL MODE → apply all filters
-            $args['post_type'] = $source;
 
             // =====================================================
             // INCLUDE / EXCLUDE
