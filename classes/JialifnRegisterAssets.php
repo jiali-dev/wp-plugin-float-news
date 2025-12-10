@@ -61,10 +61,16 @@ class JialifnRegisterAssets {
 
         }
 
-        // Color Picker Assets
-        wp_enqueue_style('wp-color-picker');
-        wp_register_script('jialifn-color-picker', esc_url(JIALIFN_ASSETS_URI . '/admin/js/admin-color-picker.js'), ['wp-color-picker'], '1.0.0', true);
 
+        if ($hook_suffix === 'toplevel_page_jialifn-style-settings' ||
+        $hook_suffix === 'float-news_page_jialifn-style-settings') {
+            
+             // Color Picker Assets
+            wp_enqueue_style('wp-color-picker');
+            wp_enqueue_script('jialifn-color-picker', esc_url(JIALIFN_ASSETS_URI . '/admin/js/admin-color-picker.js'), ['wp-color-picker'], '1.0.0', true);
+
+        }
+       
     }
     
 }
