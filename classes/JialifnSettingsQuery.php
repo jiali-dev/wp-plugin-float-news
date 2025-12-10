@@ -221,6 +221,26 @@ class JialifnSettingsQuery {
             'jialifn-settings',
             'jialifn_query_order_section'
         );
+
+        // --- ORDER Section ---
+        add_settings_section(
+            'jialifn_query_extra_section',
+            esc_html__('Query extra settings', 'jiali-float-news'),
+            '__return_false',
+            'jialifn-settings',
+            [
+                'before_section' => '<div class="jialifn-query-extra-section-wrapper">',
+                'after_section'  => '</div>',
+            ]
+        );
+
+        add_settings_field(
+            'count',
+            esc_html__('Count', 'jiali-float-news'),
+            [ $this, 'fieldCount' ],
+            'jialifn-settings',
+            'jialifn_query_extra_section'
+        );
     }
 
 
@@ -510,6 +530,18 @@ class JialifnSettingsQuery {
                 <option value="DESC"' . selected($value, 'DESC', false) . '>' . esc_html__('DESC', 'jiali-float-news') . '</option>
                 <option value="ASC"' . selected($value, 'ASC', false) . '>' . esc_html__('ASC', 'jiali-float-news') . '</option>
             </select>';
+    }
+
+    // COUNT
+    public function fieldCount() {
+        $options = get_option('jialifn_query_options', []);
+        $value = $options['count'] ?? '';
+
+        echo '<select name="jialifn_query_options[count]">';
+        for ($i = 1; $i <= 10; $i++) {
+            echo '<option value="' . $i . '" ' . selected($value, $i, false) . '>' . $i . '</option>';
+        }
+        echo '</select>';
     }
 
     public function renderPage() {

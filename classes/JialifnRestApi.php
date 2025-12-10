@@ -102,7 +102,10 @@ class JialifnRestApi {
                 ],
                 'count' => [
                     'default' => 10,
-                    'sanitize_callback' => 'absint',
+                    'sanitize_callback' => function($value) {
+                        $value = absint($value);
+                        return ($value > 10 || $value < 1) ? 10 : $value;
+                    }
                 ],
 
             ]
@@ -117,7 +120,12 @@ class JialifnRestApi {
         // Base args
         $orderby = $request->get_param('orderby') ?: 'date';
         $order = $request->get_param('order') ?: 'DESC';
-        $count = $request->get_param('count') ?: 10;
+        $count = absint( $request->get_param('count') );
+
+        // Limit count to max 10
+        if ( empty($count) || $count > 10 ) {
+            $count = 10;
+        }
         
         $args = [
             'posts_per_page' => $count,

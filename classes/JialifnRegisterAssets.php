@@ -19,10 +19,13 @@ class JialifnRegisterAssets {
         wp_register_script('jialifn-shared', JIALIFN_ASSETS_URI . '/common/js/shared.js', array('jquery'), '1.0.0', true);
 
         // Localize script
+        $settings = get_option('jialifn_query_options', []);
         wp_localize_script( 'jialifn-shared', 'jialifn_ajax', 
             array(
                 'ajaxurl' => admin_url('admin-ajax.php'),
-                'nonce' => wp_create_nonce('jialifn-nonce')
+                'nonce' => wp_create_nonce('jialifn-nonce'),
+                'api_url'  => rest_url('jiali-float-news/v1/posts'),
+                'settings' => $settings
             )
         );
     } 

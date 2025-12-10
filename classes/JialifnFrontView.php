@@ -42,7 +42,6 @@ class JialifnFrontView {
                 
             </div>
         </div>
-
         
         <?php
         echo ob_get_clean();
