@@ -306,6 +306,14 @@ class JialifnRestApi {
                         ];
                         break;
 
+                    case 'past_quarter':
+                        $date_query[] = [
+                            'column'    => $date_column,
+                            'after'     => date_i18n( 'Y-m-d H:i:s', strtotime( '-3 months' ) ),
+                            'inclusive' => true,
+                        ];
+                        break;
+
                     case 'past_year':
                         $date_query[] = [
                             'column'    => $date_column,
@@ -385,7 +393,7 @@ class JialifnRestApi {
                 'id'    => get_the_ID(),
                 'title' => get_the_title(),
                 'link'  => get_permalink(),
-                'image' => get_the_post_thumbnail_url(get_the_ID(), 'thumbnail')
+                'image' => get_the_post_thumbnail_url(get_the_ID(), 'thumbnail'),
             ];
         }
 

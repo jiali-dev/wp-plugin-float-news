@@ -473,12 +473,12 @@ class JialifnSettingsQuery {
         $value = $opts['date_range'] ?? '';
 
         echo '<select class="jialifn-date-range" name="jialifn_query_options[date_range]">
-            <option value="anytime" ' . selected($value, 'anytime', false) . '>'.esc_html__('All', 'jiali-float-news').'</option>
-            <option value="today"' . selected($value, 'today', false) . '>'.esc_html__('Past day', 'jiali-float-news').'</option>
-            <option value="week"' . selected($value, 'week', false) . '>'.esc_html__('Past week', 'jiali-float-news').'</option>
-            <option value="month"' . selected($value, 'month', false) . '>'.esc_html__('Past month', 'jiali-float-news').'</option>
-            <option value="quarter"' . selected($value, 'quarter', false) . '>'.esc_html__('Past quarter', 'jiali-float-news').'</option>
-            <option value="year"' . selected($value, 'year', false) . '>'.esc_html__('Past year', 'jiali-float-news').'</option>
+            <option value="all" ' . selected($value, 'all', false) . '>'.esc_html__('All', 'jiali-float-news').'</option>
+            <option value="past_day"' . selected($value, 'past_day', false) . '>'.esc_html__('Past day', 'jiali-float-news').'</option>
+            <option value="past_week"' . selected($value, 'past_week', false) . '>'.esc_html__('Past week', 'jiali-float-news').'</option>
+            <option value="past_month"' . selected($value, 'past_month', false) . '>'.esc_html__('Past month', 'jiali-float-news').'</option>
+            <option value="past_quarter"' . selected($value, 'past_quarter', false) . '>'.esc_html__('Past quarter', 'jiali-float-news').'</option>
+            <option value="past_year"' . selected($value, 'past_year', false) . '>'.esc_html__('Past year', 'jiali-float-news').'</option>
             <option value="custom"' . selected($value, 'custom', false) . '>'.esc_html__('Custom', 'jiali-float-news').'</option>
         </select>';
     }
