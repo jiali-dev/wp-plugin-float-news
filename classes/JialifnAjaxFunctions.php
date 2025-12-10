@@ -147,6 +147,7 @@ class JialifnAjaxFunctions {
         // Query posts
         $posts = get_posts([
             's'              => $search,      // WordPress search
+            'post_type' => 'any',
             'posts_per_page' => 20,
             'post_status'    => 'publish',
         ]);

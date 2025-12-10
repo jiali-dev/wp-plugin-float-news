@@ -33,27 +33,46 @@ jQuery(document).ready(function ($) {
     // $toast.data('timeout', timeout);
   }
 
-  showToast(`
-    <div class="jialifn-slider">
-        <a class="jialifn-slides active">
-            <h3 class="jialifn-slides__title">Welcome to JialiFN Toast Notification!</h3>
-            <img class="jialifn-slides__img" src="https://picsum.photos/id/1018/800/400" alt="Slide 1">
-        </a>
-        <a class="jialifn-slides">
-            <h3 class="jialifn-slides__title">Welcome to JialiFN Toast Notification!</h3>
+  // Build Query URL
+  function buildQueryUrl(baseUrl, params) {
+    const query = new URLSearchParams();
 
-            <img class="jialifn-slides__img" src="https://picsum.photos/id/1025/800/400" alt="Slide 2">
-        </a>
-        <a class="jialifn-slides">
-            <h3 class="jialifn-slides__title">Welcome to JialiFN Toast Notification!</h3>
+    Object.keys(params).forEach(key => {
+        const value = params[key];
 
-            <img class="jialifn-slides__img" src="https://picsum.photos/id/1039/800/400" alt="Slide 3">
-        </a>
+        if (Array.isArray(value)) {
+            value.forEach(v => query.append(key + "[]", v));
+        } else if (value !== "" && value !== null && value !== undefined) {
+            query.append(key, value);
+        }
+    });
 
-        <div class="jialifn-progress">
-            <div class="jialifn-progress-bar"></div>
-        </div>
-    </div>
-  `);
+    return baseUrl + "?" + query.toString();
+  }
+  
+  const query_url = buildQueryUrl(jialifn_ajax.api_url, jialifn_ajax.settings);
+  console.log("Query URL:", query_url);
 
+  fetch(query_url)
+    .then(res => res.json())
+    .then(posts => {
+
+        if (!posts.length) return;
+
+        let html = `
+            <div class="jialifn-slider">
+                ${posts.map((item, i) => `
+                    <a class="jialifn-slides ${i === 0 ? 'active' : ''}" href="${item.link}">
+                        <h3 class="jialifn-slides__title">${item.title}</h3>
+                        <img class="jialifn-slides__img" src="${item.image || ''}">
+                    </a>
+                `).join('')}
+                <div class="jialifn-progress"><div class="jialifn-progress-bar"></div></div>
+            </div>
+        `;
+
+        $(".jialifn-toast .jialifn-toast-content").html(html);
+        $(".jialifn-toast").addClass("show");
+    })
+    .catch(console.error);
 });

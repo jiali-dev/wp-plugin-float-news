@@ -3,7 +3,6 @@
   bottom: 30px;
   right: 30px;
   background: #333;
-  color: #fff;
   /* padding: 14px 20px; */
   border-radius: 6px;
   font-size: 14px;
@@ -12,9 +11,17 @@
   transform: translateY(20px);
   transition: all 0.3s ease;
   z-index: 9999;
+  overflow: hidden;
 }
 
 .jialifn-toast.show {
   opacity: 1;
   transform: translateY(0);
+}
+
+/* For mobile */
+@media (max-width: 575px) {
+  .jialifn-toast {
+    right: 0px;
+  }
 }

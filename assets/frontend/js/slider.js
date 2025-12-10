@@ -1,8 +1,8 @@
 jQuery(function ($) {
   "use strict";
 
-  const SLIDE_DURATION = 4000; // 4 seconds per slide
-
+  const SLIDE_DURATION = parseInt(jialifn_style_settings.slideDuration) || 4000; // 4 seconds per slide
+console.log("Slider duration:", SLIDE_DURATION);
   function initSlider($container) {
     const $slides = $container.find(".jialifn-slides");
     const $progress = $container.find(".jialifn-progress-bar");

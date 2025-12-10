@@ -3,7 +3,7 @@ jQuery(document).ready(function ($) {
 
   // Check source field dependencies to show
   function handleSourceDependencies(value) {
-    const hide = value === "manual_selection";
+    const hide = value === "manual_sources";
     $(".jialifn-query-exception-section-wrapper").toggle(!hide);
     $(".jialifn-query-date-section-wrapper").toggle(!hide);
     $(".jialifn-query-order-section-wrapper").toggle(!hide);
@@ -28,7 +28,7 @@ jQuery(document).ready(function ($) {
   function handleExcludeByDependencies(values) {
     const showByTerm = values.includes("term");
     const showByAuthor = values.includes("author");
-    const showManualSelection = values.includes("manual_selection");
+    const showManualSelection = values.includes("manual_sources");
     $(".jialifn-excluded-terms-wrapper").toggle(showByTerm);
     $(".jialifn-excluded-authors-wrapper").toggle(showByAuthor);
     $(".jialifn-manual-excluded-sources-wrapper").toggle(showManualSelection);
@@ -39,6 +39,10 @@ jQuery(document).ready(function ($) {
     const show = value === "custom";
     $(".jialifn-date-before-wrapper").toggle(show);
     $(".jialifn-date-after-wrapper").toggle(show);
+    if( !show ) {
+      $(".jialifn-date-before").val('');
+      $(".jialifn-date-after").val('');
+    }
   }
 
   // Run on page load

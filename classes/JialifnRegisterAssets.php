@@ -19,10 +19,13 @@ class JialifnRegisterAssets {
         wp_register_script('jialifn-shared', JIALIFN_ASSETS_URI . '/common/js/shared.js', array('jquery'), '1.0.0', true);
 
         // Localize script
+        $settings = get_option('jialifn_query_options', []);
         wp_localize_script( 'jialifn-shared', 'jialifn_ajax', 
             array(
                 'ajaxurl' => admin_url('admin-ajax.php'),
-                'nonce' => wp_create_nonce('jialifn-nonce')
+                'nonce' => wp_create_nonce('jialifn-nonce'),
+                'api_url'  => rest_url('jiali-float-news/v1/posts'),
+                'settings' => $settings
             )
         );
     } 
@@ -58,10 +61,16 @@ class JialifnRegisterAssets {
 
         }
 
-        // Color Picker Assets
-        wp_enqueue_style('wp-color-picker');
-        wp_register_script('jialifn-color-picker', esc_url(JIALIFN_ASSETS_URI . '/admin/js/admin-color-picker.js'), ['wp-color-picker'], '1.0.0', true);
 
+        if ($hook_suffix === 'toplevel_page_jialifn-style-settings' ||
+        $hook_suffix === 'float-news_page_jialifn-style-settings') {
+            
+             // Color Picker Assets
+            wp_enqueue_style('wp-color-picker');
+            wp_enqueue_script('jialifn-color-picker', esc_url(JIALIFN_ASSETS_URI . '/admin/js/admin-color-picker.js'), ['wp-color-picker'], '1.0.0', true);
+
+        }
+       
     }
     
 }
