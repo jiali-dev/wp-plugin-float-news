@@ -18,7 +18,13 @@ class JialifnSettingsStyle {
 
     public function registerSettings() {
 
-        register_setting('jialifn_style_group', 'jialifn_style_options');
+        register_setting(
+            'jialifn_style_group', 
+            'jialifn_style_options',
+            [
+                'sanitize_callback' => [ $this, 'sanitizeQueryOptions' ]
+            ]
+        );
 
         add_settings_section(
             'jialifn_style_section',
@@ -66,6 +72,38 @@ class JialifnSettingsStyle {
             'jialifn-style-settings',
             'jialifn_style_section'
         );
+    }
+
+
+    public function sanitizeQueryOptions( $input ) {
+        $output = [];
+        
+        // toast_background_color
+        if ( isset( $input['toast_background_color'] ) ) { 
+            $output['toast_background_color'] = sanitize_text_field( $input['toast_background_color'] );
+        }
+
+        // progress_bar_color
+        if ( isset( $input['progress_bar_color'] ) ) { 
+            $output['progress_bar_color'] = sanitize_text_field( $input['progress_bar_color'] );
+        }   
+
+        // slider_duration
+        if ( isset( $input['slider_duration'] ) ) { 
+            $output['slider_duration'] = absint( $input['slider_duration'] );
+        }
+
+        // title_color
+        if ( isset( $input['title_color'] ) ) { 
+            $output['title_color'] = sanitize_text_field( $input['title_color'] );
+        }   
+
+        // title_size
+        if ( isset( $input['title_size'] ) ) { 
+            $output['title_size'] = absint( $input['title_size'] );
+        }    
+
+        return $output;
     }
 
     public function fieldToastBackgroundColor() {

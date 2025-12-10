@@ -17,7 +17,14 @@ class JialifnSettingsQuery {
 
     public function registerSettings() {
 
-        register_setting('jialifn_query_group', 'jialifn_query_options');
+        register_setting(
+            'jialifn_query_group',
+            'jialifn_query_options',
+            [
+                'sanitize_callback' => [ $this, 'sanitizeQueryOptions' ]
+            ]
+
+        );
 
         // --- Source Section ---
         add_settings_section(
@@ -243,6 +250,93 @@ class JialifnSettingsQuery {
         );
     }
 
+    public function sanitizeQueryOptions( $input ) {
+        $output = [];
+        
+        // source
+        if ( isset( $input['source'] ) ) { 
+            $output['source'] = sanitize_text_field( $input['source'] );
+        }
+
+        // manual_sources (array of integers)
+        if ( isset( $input['manual_sources'] ) && is_array( $input['manual_sources'] ) ) {
+            $output['manual_sources'] = array_map( 'absint', $input['manual_sources'] );
+        }
+
+        // include_by (array of strings)
+        if ( isset( $input['include_by'] ) && is_array( $input['include_by'] ) ) {
+            $output['include_by'] = array_map( 'sanitize_text_field', $input['include_by'] );
+        }
+
+        // included_terms (array of integers)
+        if ( isset( $input['included_terms'] ) && is_array( $input['included_terms'] ) ) {
+            $output['included_terms'] = array_map( 'absint', $input['included_terms'] );
+        }
+        
+        // included_authors (array of integers)
+        if ( isset( $input['included_authors'] ) && is_array( $input['included_authors'] ) ) {
+            $output['included_authors'] = array_map( 'absint', $input['included_authors'] );
+        }
+
+        // exclude_by (array of strings)
+        if ( isset( $input['exclude_by'] ) && is_array( $input['exclude_by'] ) ) {
+            $output['exclude_by'] = array_map( 'sanitize_text_field', $input['exclude_by'] );
+        }   
+
+        // excluded_terms (array of integers)
+        if ( isset( $input['excluded_terms'] ) && is_array( $input['excluded_terms'] ) ) {
+            $output['excluded_terms'] = array_map( 'absint', $input['excluded_terms'] );
+        }
+
+        // excluded_authors (array of integers)
+        if ( isset( $input['excluded_authors'] ) && is_array( $input['excluded_authors'] ) ) {
+            $output['excluded_authors'] = array_map( 'absint', $input['excluded_authors'] );
+        }
+
+        // manual_excluded_sources (array of integers)
+        if ( isset( $input['manual_excluded_sources'] ) && is_array( $input['manual_excluded_sources'] ) ) {
+            $output['manual_excluded_sources'] = array_map( 'absint', $input['manual_excluded_sources'] );
+        }
+
+        // date_range
+        if ( isset( $input['date_range'] ) ) {
+            $output['date_range'] = sanitize_text_field( $input['date_range'] );
+        }
+
+        // order_by
+        if ( isset( $input['order_by'] ) ) {
+            $output['order_by'] = sanitize_text_field( $input['order_by'] );
+        }
+
+        // order
+        if ( isset( $input['order'] ) ) {
+            $output['order'] = sanitize_text_field( $input['order'] );
+        }
+
+        // after dates
+        if ( isset( $input['date_after'] ) ) {
+            $ts = strtotime( sanitize_text_field( $input['date_after'] ) );
+            if ( $ts !== false ) {
+                $output['date_after'] = gmdate( 'Y-m-d H:i:s', $ts );
+            }
+        }
+
+        // before date
+        if ( isset( $input['date_before'] ) ) {
+            $ts = strtotime( sanitize_text_field( $input['date_before'] ) );
+            if ( $ts !== false ) {
+                $output['date_before'] = gmdate( 'Y-m-d H:i:s', $ts );
+            }
+        }
+
+        // count
+        if ( isset( $input['count'] ) ) {
+            $count = absint( $input['count'] );
+            $output['count'] = min( $count, 10 ); // Max 10
+        }
+
+        return $output;
+    }
 
     /* ==== FIELD RENDERERS ===== */
     public function fieldSource() {
@@ -259,7 +353,10 @@ class JialifnSettingsQuery {
             if (in_array($key, $exclude, true)) {
                 continue;
             }
-            echo "<option value='{$key}' " . selected($value, $key, false) . ">{$pt->label}</option>";
+            echo '<option value="' . esc_attr($key) . '" ' 
+                . selected($value, $key, false) . '>'
+                . esc_html($pt->label)
+                . '</option>';
         }
         echo '<option value="manual_sources" ' . selected($value, 'manual_sources', false) . '>' . esc_html__('Manual sources', 'jiali-float-news') . '</option>';
 
@@ -539,7 +636,7 @@ class JialifnSettingsQuery {
 
         echo '<select name="jialifn_query_options[count]">';
         for ($i = 1; $i <= 10; $i++) {
-            echo '<option value="' . $i . '" ' . selected($value, $i, false) . '>' . $i . '</option>';
+            echo '<option value="' . esc_attr($i) . '" ' . selected($value, $i, false) . '>' . esc_html($i) . '</option>';
         }
         echo '</select>';
     }
