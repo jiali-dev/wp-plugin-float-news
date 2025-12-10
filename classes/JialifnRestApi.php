@@ -340,7 +340,7 @@ class JialifnRestApi {
                         if ( !empty($raw_after) ) {
                             $ts = strtotime($raw_after);
                             if ( $ts !== false ) {
-                                $range['after'] = date('Y-m-d H:i:s', $ts);
+                                $range['after'] = gmdate('Y-m-d H:i:s', $ts);
                             }
                         }
 
@@ -348,7 +348,7 @@ class JialifnRestApi {
                         if ( !empty($raw_before) ) {
                             $ts = strtotime($raw_before);
                             if ( $ts !== false ) {
-                                $range['before'] = date('Y-m-d H:i:s', $ts);
+                                $range['before'] = gmdate('Y-m-d H:i:s', $ts);
                             }
                         }
 

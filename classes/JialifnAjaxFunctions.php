@@ -45,8 +45,8 @@ class JialifnAjaxFunctions {
         }
 
         // Sanitize inputs
-        $search = sanitize_text_field($_POST['search'] ?? '');
-        $post_type = sanitize_key($_POST['post_type'] ?? 'post');
+        $search = sanitize_text_field(wp_unslash($_POST['search']) ?? '');
+        $post_type = sanitize_key(wp_unslash($_POST['post_type'] ?? 'post'));
 
         // Get all taxonomies linked to this post type
         $taxonomies = get_object_taxonomies($post_type);
@@ -142,7 +142,7 @@ class JialifnAjaxFunctions {
         }
 
         // Sanitize inputs
-        $search     = sanitize_text_field($_POST['search'] ?? '');
+        $search     = sanitize_text_field(wp_unslash($_POST['search'] ?? ''));
 
         // Query posts
         $posts = get_posts([

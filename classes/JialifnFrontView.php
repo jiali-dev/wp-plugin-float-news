@@ -44,7 +44,7 @@ class JialifnFrontView {
         </div>
         
         <?php
-        echo ob_get_clean();
+        echo wp_kses_post( ob_get_clean() );
     }
 
 }

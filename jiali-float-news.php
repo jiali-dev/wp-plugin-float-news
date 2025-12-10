@@ -3,7 +3,7 @@
 /**
  * Plugin Name: Jiali Float News
  * Description: Display up to 10 recent or random posts in a floating, auto-sliding notification bar. Fully customizable by category, tag, and style.
- * Version: 1.0.1
+ * Version: 1.0.0
  * Author: Mahyar Rad
  * Author URI: https://mahyarerad.com/
  * License: GPL-2.0+
