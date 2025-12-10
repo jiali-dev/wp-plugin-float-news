@@ -39,6 +39,10 @@ jQuery(document).ready(function ($) {
     const show = value === "custom";
     $(".jialifn-date-before-wrapper").toggle(show);
     $(".jialifn-date-after-wrapper").toggle(show);
+    if( !show ) {
+      $(".jialifn-date-before").val('');
+      $(".jialifn-date-after").val('');
+    }
   }
 
   // Run on page load
