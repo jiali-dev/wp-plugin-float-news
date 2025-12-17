@@ -1,4 +1,4 @@
-=== Jiali Float News ===
+=== Jiali Floating News ===
 Contributors: mrgrad
 Tags: floating bar, news, posts, recent posts, notifications, slider
 Requires at least: 5.0
@@ -11,7 +11,7 @@ A floating, customizable notification bar that slides through your latest or ran
 
 == Description ==
 
-**Jiali Float News** adds a floating notification bar that displays up to 10 posts in a smooth, auto-sliding style.  
+**Jiali Floating News** adds a floating notification bar that displays up to 10 posts in a smooth, auto-sliding style.  
 It helps your visitors stay updated with your latest or selected posts — without interrupting their browsing experience.
 
 You can configure which posts appear (latest, random, specific categories, or tags) and easily customize its design, position, and animation style.
@@ -35,9 +35,9 @@ Perfect for blogs, news sites, or any website that wants to highlight recent con
 
 == Installation ==
 
-1. Upload the plugin folder to `/wp-content/plugins/jiali-float-news`
+1. Upload the plugin folder to `/wp-content/plugins/jiali-floating-news`
 2. Activate the plugin through the ‘Plugins’ menu in WordPress
-3. Go to **Settings → Jiali Float News** to configure your preferences:
+3. Go to **Settings → Jiali Floating News** to configure your preferences:
    - Select post source (latest / random)
    - Choose categories or tags
    - Customize the bar’s position, animation, and design

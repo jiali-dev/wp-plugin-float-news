@@ -28,14 +28,14 @@ class JialifnSettingsStyle {
 
         add_settings_section(
             'jialifn_style_section',
-            esc_html__('Style configuration', 'jiali-float-news'),
+            esc_html__('Style configuration', 'jiali-floating-news'),
             '__return_false',
             'jialifn-style-settings'
         );
 
         add_settings_field(
             'toast-background-color',
-            esc_html__('Toast background color', 'jiali-float-news'),
+            esc_html__('Toast background color', 'jiali-floating-news'),
             [ $this, 'fieldToastBackgroundColor' ],
             'jialifn-style-settings',
             'jialifn_style_section'
@@ -43,7 +43,7 @@ class JialifnSettingsStyle {
 
         add_settings_field(
             'progress-bar-color',
-            esc_html__('Progress bar color', 'jiali-float-news'),
+            esc_html__('Progress bar color', 'jiali-floating-news'),
             [ $this, 'fieldProgressBarColor' ],
             'jialifn-style-settings',
             'jialifn_style_section'
@@ -51,7 +51,7 @@ class JialifnSettingsStyle {
 
         add_settings_field(
             'title-color',
-            esc_html__('Title color', 'jiali-float-news'),
+            esc_html__('Title color', 'jiali-floating-news'),
             [ $this, 'fieldTitleColor' ],
             'jialifn-style-settings',
             'jialifn_style_section'
@@ -59,7 +59,7 @@ class JialifnSettingsStyle {
 
         add_settings_field(
             'title-size',
-            esc_html__('Title size (px)', 'jiali-float-news'),
+            esc_html__('Title size (px)', 'jiali-floating-news'),
             [ $this, 'fieldTitleSize' ],
             'jialifn-style-settings',
             'jialifn_style_section'
@@ -67,7 +67,7 @@ class JialifnSettingsStyle {
 
         add_settings_field(
             'slider-duration',
-            esc_html__('Slider duration (ms)', 'jiali-float-news'),
+            esc_html__('Slider duration (ms)', 'jiali-floating-news'),
             [ $this, 'fieldSliderDuration' ],
             'jialifn-style-settings',
             'jialifn_style_section'
@@ -149,7 +149,7 @@ class JialifnSettingsStyle {
     public function renderPage() {
         ?>
         <div class="wrap">
-            <h1>Float News – Style Settings</h1>
+            <h1>Floating News – Style Settings</h1>
 
             <form action="options.php" method="post">
                 <?php

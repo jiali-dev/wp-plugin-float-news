@@ -29,7 +29,7 @@ class JialifnSettingsQuery {
         // --- Source Section ---
         add_settings_section(
             'jialifn_query_source_section',
-            esc_html__('Query source configuration', 'jiali-float-news'),
+            esc_html__('Query source configuration', 'jiali-floating-news'),
             '__return_false',
             'jialifn-settings',
             [
@@ -41,7 +41,7 @@ class JialifnSettingsQuery {
         // SOURCE
         add_settings_field(
             'source',
-            esc_html__('Source', 'jiali-float-news'),
+            esc_html__('Source', 'jiali-floating-news'),
             [ $this, 'fieldSource' ],
             'jialifn-settings',
             'jialifn_query_source_section'
@@ -50,7 +50,7 @@ class JialifnSettingsQuery {
         // MANUAL SOURCE
         add_settings_field(
             'manual-sources',
-            esc_html__('Manual sources', 'jiali-float-news'),
+            esc_html__('Manual sources', 'jiali-floating-news'),
             [ $this, 'fieldManualSources' ],
             'jialifn-settings',
             'jialifn_query_source_section',
@@ -62,7 +62,7 @@ class JialifnSettingsQuery {
         // --- Exception Section ---
         add_settings_section(
             'jialifn_query_exception_section',
-            esc_html__('Query exception settings', 'jiali-float-news'),
+            esc_html__('Query exception settings', 'jiali-floating-news'),
             '__return_false',
             'jialifn-settings',
             [
@@ -74,7 +74,7 @@ class JialifnSettingsQuery {
         // INCLUDE TERMS + AUTHORS
         add_settings_field(
             'include-by',
-            esc_html__('Include by', 'jiali-float-news'),
+            esc_html__('Include by', 'jiali-floating-news'),
             [ $this, 'fieldIncludeBy' ],
             'jialifn-settings',
             'jialifn_query_exception_section',
@@ -86,7 +86,7 @@ class JialifnSettingsQuery {
         // INCLUDED TERMS
         add_settings_field(
             'included-terms',
-            esc_html__('Included terms', 'jiali-float-news'),
+            esc_html__('Included terms', 'jiali-floating-news'),
             [ $this, 'fieldIncludedTerms' ],
             'jialifn-settings',
             'jialifn_query_exception_section',
@@ -98,7 +98,7 @@ class JialifnSettingsQuery {
         // INCLUDED AUTHORS
         add_settings_field(
             'included-authors',
-            esc_html__('Included authors', 'jiali-float-news'),
+            esc_html__('Included authors', 'jiali-floating-news'),
             [ $this, 'fieldIncludedAuthors' ],
             'jialifn-settings',
             'jialifn_query_exception_section',
@@ -110,7 +110,7 @@ class JialifnSettingsQuery {
         // EXCLUDE TERMS + AUTHORS
         add_settings_field(
             'exclude-by',
-            esc_html__('Exclude by', 'jiali-float-news'),
+            esc_html__('Exclude by', 'jiali-floating-news'),
             [ $this, 'fieldExcludeBy' ],
             'jialifn-settings',
             'jialifn_query_exception_section',
@@ -122,7 +122,7 @@ class JialifnSettingsQuery {
         // EXCLUDED TERMS
         add_settings_field(
             'excluded-terms',
-            esc_html__('Excluded terms', 'jiali-float-news'),
+            esc_html__('Excluded terms', 'jiali-floating-news'),
             [ $this, 'fieldExcludedTerms' ],
             'jialifn-settings',
             'jialifn_query_exception_section',
@@ -134,7 +134,7 @@ class JialifnSettingsQuery {
         // EXCLUDED AUTHORS
         add_settings_field(
             'excluded-authors',
-            esc_html__('Excluded authors', 'jiali-float-news'),
+            esc_html__('Excluded authors', 'jiali-floating-news'),
             [ $this, 'fieldExcludedAuthors' ],
             'jialifn-settings',
             'jialifn_query_exception_section',
@@ -146,7 +146,7 @@ class JialifnSettingsQuery {
         // MANUAL EXCLUDED SOURCES
         add_settings_field(
             'manual-excluded-sources',
-            esc_html__('Manual excluded sources', 'jiali-float-news'),
+            esc_html__('Manual excluded sources', 'jiali-floating-news'),
             [ $this, 'fieldManualExcludedSources' ],
             'jialifn-settings',
             'jialifn_query_exception_section',
@@ -158,7 +158,7 @@ class JialifnSettingsQuery {
         // --- Date Section ---
         add_settings_section(
             'jialifn_query_date_section',
-            esc_html__('Query date settings', 'jiali-float-news'),
+            esc_html__('Query date settings', 'jiali-floating-news'),
             '__return_false',
             'jialifn-settings',
             [
@@ -170,7 +170,7 @@ class JialifnSettingsQuery {
         // DATE FILTERS
         add_settings_field(
             'date_range',
-            esc_html__('Date range', 'jiali-float-news'),
+            esc_html__('Date range', 'jiali-floating-news'),
             [ $this, 'fieldDateRange' ],
             'jialifn-settings',
             'jialifn_query_date_section'
@@ -179,7 +179,7 @@ class JialifnSettingsQuery {
         // DATE AFTER
         add_settings_field(
             'date_after',
-            esc_html__('Date after', 'jiali-float-news'),
+            esc_html__('Date after', 'jiali-floating-news'),
             [ $this, 'fieldDateAfter' ],
             'jialifn-settings',
             'jialifn_query_date_section',
@@ -191,7 +191,7 @@ class JialifnSettingsQuery {
         // DATE BEFORE
         add_settings_field(
             'date_before',
-            esc_html__('Date before', 'jiali-float-news'),
+            esc_html__('Date before', 'jiali-floating-news'),
             [ $this, 'fieldDateBefore' ],
             'jialifn-settings',
             'jialifn_query_date_section',
@@ -203,7 +203,7 @@ class JialifnSettingsQuery {
         // --- ORDER Section ---
         add_settings_section(
             'jialifn_query_order_section',
-            esc_html__('Query order settings', 'jiali-float-news'),
+            esc_html__('Query order settings', 'jiali-floating-news'),
             '__return_false',
             'jialifn-settings',
             [
@@ -215,7 +215,7 @@ class JialifnSettingsQuery {
         // ORDER
         add_settings_field(
             'orderby',
-            esc_html__('Order by', 'jiali-float-news'),
+            esc_html__('Order by', 'jiali-floating-news'),
             [ $this, 'fieldOrderBy' ],
             'jialifn-settings',
             'jialifn_query_order_section'
@@ -223,7 +223,7 @@ class JialifnSettingsQuery {
 
         add_settings_field(
             'order',
-            esc_html__('Order', 'jiali-float-news'),
+            esc_html__('Order', 'jiali-floating-news'),
             [ $this, 'fieldOrder' ],
             'jialifn-settings',
             'jialifn_query_order_section'
@@ -232,7 +232,7 @@ class JialifnSettingsQuery {
         // --- ORDER Section ---
         add_settings_section(
             'jialifn_query_extra_section',
-            esc_html__('Query extra settings', 'jiali-float-news'),
+            esc_html__('Query extra settings', 'jiali-floating-news'),
             '__return_false',
             'jialifn-settings',
             [
@@ -243,7 +243,7 @@ class JialifnSettingsQuery {
 
         add_settings_field(
             'count',
-            esc_html__('Count', 'jiali-float-news'),
+            esc_html__('Count', 'jiali-floating-news'),
             [ $this, 'fieldCount' ],
             'jialifn-settings',
             'jialifn_query_extra_section'
@@ -358,7 +358,7 @@ class JialifnSettingsQuery {
                 . esc_html($pt->label)
                 . '</option>';
         }
-        echo '<option value="manual_sources" ' . selected($value, 'manual_sources', false) . '>' . esc_html__('Manual sources', 'jiali-float-news') . '</option>';
+        echo '<option value="manual_sources" ' . selected($value, 'manual_sources', false) . '>' . esc_html__('Manual sources', 'jiali-floating-news') . '</option>';
 
         echo '</select>';
     }
@@ -403,10 +403,10 @@ class JialifnSettingsQuery {
 
         echo '<select class="jialifn-include-by" name="jialifn_query_options[include_by][]" multiple>';
         echo '<option value="term" ' . selected(in_array('term', $selected_values), true, false) . '>'
-                . esc_html__('Term', 'jiali-float-news') .
+                . esc_html__('Term', 'jiali-floating-news') .
             '</option>';
         echo '<option value="author" ' . selected(in_array('author', $selected_values), true, false) . '>'
-                . esc_html__('Author', 'jiali-float-news') .
+                . esc_html__('Author', 'jiali-floating-news') .
             '</option>';
         echo '</select>';
     }
@@ -469,13 +469,13 @@ class JialifnSettingsQuery {
 
         echo '<select class="jialifn-exclude-by" name="jialifn_query_options[exclude_by][]" multiple>';
         echo '<option value="term" ' . selected(in_array('term', $selected_values), true, false) . '>'
-                . esc_html__('Term', 'jiali-float-news') .
+                . esc_html__('Term', 'jiali-floating-news') .
             '</option>';
         echo '<option value="author" ' . selected(in_array('author', $selected_values), true, false) . '>'
-                . esc_html__('Author', 'jiali-float-news') .
+                . esc_html__('Author', 'jiali-floating-news') .
             '</option>';
         echo '<option value="manual_sources" ' . selected(in_array('manual_sources', $selected_values), true, false) . '>'
-                . esc_html__('Manual sources', 'jiali-float-news') .
+                . esc_html__('Manual sources', 'jiali-floating-news') .
             '</option>';
         echo '</select>';
     }
@@ -570,13 +570,13 @@ class JialifnSettingsQuery {
         $value = $opts['date_range'] ?? '';
 
         echo '<select class="jialifn-date-range" name="jialifn_query_options[date_range]">
-            <option value="all" ' . selected($value, 'all', false) . '>'.esc_html__('All', 'jiali-float-news').'</option>
-            <option value="past_day"' . selected($value, 'past_day', false) . '>'.esc_html__('Past day', 'jiali-float-news').'</option>
-            <option value="past_week"' . selected($value, 'past_week', false) . '>'.esc_html__('Past week', 'jiali-float-news').'</option>
-            <option value="past_month"' . selected($value, 'past_month', false) . '>'.esc_html__('Past month', 'jiali-float-news').'</option>
-            <option value="past_quarter"' . selected($value, 'past_quarter', false) . '>'.esc_html__('Past quarter', 'jiali-float-news').'</option>
-            <option value="past_year"' . selected($value, 'past_year', false) . '>'.esc_html__('Past year', 'jiali-float-news').'</option>
-            <option value="custom"' . selected($value, 'custom', false) . '>'.esc_html__('Custom', 'jiali-float-news').'</option>
+            <option value="all" ' . selected($value, 'all', false) . '>'.esc_html__('All', 'jiali-floating-news').'</option>
+            <option value="past_day"' . selected($value, 'past_day', false) . '>'.esc_html__('Past day', 'jiali-floating-news').'</option>
+            <option value="past_week"' . selected($value, 'past_week', false) . '>'.esc_html__('Past week', 'jiali-floating-news').'</option>
+            <option value="past_month"' . selected($value, 'past_month', false) . '>'.esc_html__('Past month', 'jiali-floating-news').'</option>
+            <option value="past_quarter"' . selected($value, 'past_quarter', false) . '>'.esc_html__('Past quarter', 'jiali-floating-news').'</option>
+            <option value="past_year"' . selected($value, 'past_year', false) . '>'.esc_html__('Past year', 'jiali-floating-news').'</option>
+            <option value="custom"' . selected($value, 'custom', false) . '>'.esc_html__('Custom', 'jiali-floating-news').'</option>
         </select>';
     }
 
@@ -588,7 +588,7 @@ class JialifnSettingsQuery {
         echo '<input type="text" 
             class="jialifn-date-before" 
             name="jialifn_query_options[date_before]" 
-            placeholder="' . esc_html__('Select ...', 'jiali-float-news') . '" 
+            placeholder="' . esc_html__('Select ...', 'jiali-floating-news') . '" 
             value="' . esc_attr($value) . '" />';
     }
 
@@ -600,7 +600,7 @@ class JialifnSettingsQuery {
         echo '<input type="text" 
             class="jialifn-date-after" 
             name="jialifn_query_options[date_after]" 
-            placeholder="' . esc_html__('Select ...', 'jiali-float-news') . '" 
+            placeholder="' . esc_html__('Select ...', 'jiali-floating-news') . '" 
             value="' . esc_attr($value) . '" />';
     }
 
@@ -610,11 +610,11 @@ class JialifnSettingsQuery {
         $value = $options['order_by'] ?? '';
 
         echo '<select name="jialifn_query_options[order_by]">
-                <option value="date"' . selected($value, 'date', false) . '>' . esc_html__('Date', 'jiali-float-news') . '</option>
-                <option value="title"' . selected($value, 'title', false) . '>' . esc_html__('Title', 'jiali-float-news') . '</option>
-                <option value="modified"' . selected($value, 'modified', false) . '>' . esc_html__('Last modified', 'jiali-float-news') . '</option>
-                <option value="comment_count"' . selected($value, 'comment_count', false) . '>' . esc_html__('Comment count', 'jiali-float-news') . '</option>
-                <option value="rand"' . selected($value, 'rand', false) . '>' . esc_html__('Random', 'jiali-float-news') . '</option>
+                <option value="date"' . selected($value, 'date', false) . '>' . esc_html__('Date', 'jiali-floating-news') . '</option>
+                <option value="title"' . selected($value, 'title', false) . '>' . esc_html__('Title', 'jiali-floating-news') . '</option>
+                <option value="modified"' . selected($value, 'modified', false) . '>' . esc_html__('Last modified', 'jiali-floating-news') . '</option>
+                <option value="comment_count"' . selected($value, 'comment_count', false) . '>' . esc_html__('Comment count', 'jiali-floating-news') . '</option>
+                <option value="rand"' . selected($value, 'rand', false) . '>' . esc_html__('Random', 'jiali-floating-news') . '</option>
             </select>';
     }
 
@@ -624,8 +624,8 @@ class JialifnSettingsQuery {
         $value = $options['order'] ?? '';
 
         echo '<select name="jialifn_query_options[order]">
-                <option value="DESC"' . selected($value, 'DESC', false) . '>' . esc_html__('DESC', 'jiali-float-news') . '</option>
-                <option value="ASC"' . selected($value, 'ASC', false) . '>' . esc_html__('ASC', 'jiali-float-news') . '</option>
+                <option value="DESC"' . selected($value, 'DESC', false) . '>' . esc_html__('DESC', 'jiali-floating-news') . '</option>
+                <option value="ASC"' . selected($value, 'ASC', false) . '>' . esc_html__('ASC', 'jiali-floating-news') . '</option>
             </select>';
     }
 
@@ -645,7 +645,7 @@ class JialifnSettingsQuery {
         ?>
         <div class="wrap jialifn-admin-area">
             <h1>
-                <?php echo esc_html__('Float News', 'jiali-float-news') . ' - ' . esc_html__('Query Settings', 'jiali-float-news'); ?>
+                <?php echo esc_html__('Floating News', 'jiali-floating-news') . ' - ' . esc_html__('Query Settings', 'jiali-floating-news'); ?>
             </h1>
             <form action="options.php" method="post">
                 <?php
