@@ -18,8 +18,8 @@ class JialifnJsTranslationHandler {
             'jialifn-shared',
             'jialifn_translate_handler', 
             [
-                'select' => __('Select ...', 'jiali-float-news'),
-                'enter_characters' => __('Please enter 1 or more characters', 'jiali-float-news'),
+                'select' => __('Select ...', 'jiali-floating-news'),
+                'enter_characters' => __('Please enter 1 or more characters', 'jiali-floating-news'),
             ]
         );
     }

@@ -25,7 +25,7 @@ class JialifnRestApi {
      * Register REST API routes
      */
     public function registerRoutes() {
-        register_rest_route( 'jiali-float-news/v1', '/posts', [
+        register_rest_route( 'jiali-floating-news/v1', '/posts', [
             'methods'  => 'GET',
             'callback' => [ $this, 'getPosts' ],
             'permission_callback' => '__return_true',

@@ -27,7 +27,7 @@ class JialifnAjaxFunctions {
     private function verifyNonce() {
         $nonce = isset($_POST['nonce']) ? sanitize_text_field(wp_unslash($_POST['nonce'])) : '';
         if (empty($nonce) || !wp_verify_nonce($nonce, 'jialifn-nonce')) {
-            throw new Exception(esc_html__('Security error!', 'jiali-float-news'), 403);
+            throw new Exception(esc_html__('Security error!', 'jiali-floating-news'), 403);
         }
     }
 
@@ -39,7 +39,7 @@ class JialifnAjaxFunctions {
 
         if (!is_user_logged_in()) {
             throw new Exception(
-                esc_html__('You must be logged in to perform this action!', 'jiali-float-news'),
+                esc_html__('You must be logged in to perform this action!', 'jiali-floating-news'),
                 403
             );
         }
@@ -53,7 +53,7 @@ class JialifnAjaxFunctions {
 
         if (empty($taxonomies)) {
             wp_send_json_error([
-                'message' => esc_html__('No taxonomies found for this post type.', 'jiali-float-news')
+                'message' => esc_html__('No taxonomies found for this post type.', 'jiali-floating-news')
             ]);
         }
 
@@ -90,7 +90,7 @@ class JialifnAjaxFunctions {
 
         if (!is_user_logged_in()) {
             throw new Exception(
-                esc_html__('You must be logged in to perform this action!', 'jiali-float-news'),
+                esc_html__('You must be logged in to perform this action!', 'jiali-floating-news'),
                 403
             );
         }
@@ -111,7 +111,7 @@ class JialifnAjaxFunctions {
 
         if (empty($authors)) {
             wp_send_json_error([
-                'message' => esc_html__('No authors found!', 'jiali-float-news')
+                'message' => esc_html__('No authors found!', 'jiali-floating-news')
             ]);
         }
 
@@ -137,7 +137,7 @@ class JialifnAjaxFunctions {
         // User must be logged in
         if (!is_user_logged_in()) {
             wp_send_json_error([
-                'message' => esc_html__('You must be logged in to perform this action.', 'jiali-float-news')
+                'message' => esc_html__('You must be logged in to perform this action.', 'jiali-floating-news')
             ], 403);
         }
 
